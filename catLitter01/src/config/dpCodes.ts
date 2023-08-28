@@ -1,0 +1,17 @@
+export default {
+  startCode: 'start',
+  faultCode: 'fault',
+  starRollerCode: 'star_roller',
+  uploadRollerStateCode: 'upload_roller_state',
+  rollerStateCode: 'suspended_sand',
+  autoCleanCode: 'auto_clean',
+  delayCleanTimeCode: 'delay_clean_time',
+  repeatClearSwitchCode: 'repeat_clear_sw',
+  setRepeatClearTimeCode: 'set_repeat_clear',
+  sleepSwitchCode: 'sleep',
+  setSleepPlanCode: 'set_sleep_plan',
+  clearPlanSwitchCode: 'clear_plan_sw',
+  setClearPlanCode: 'set_clear_plan',
+  childLockCode: 'child_lock',
+  reportCode: 'report',
+};
