@@ -1,0 +1,23 @@
+export default {
+  startCode: 'start',
+  faultCode: 'fault',
+  autoCleanCode: 'auto_clean',
+  delayCleanTimeCode: 'delay_clean_time',
+  repeatClearSwitchCode: 'repeat_clear_sw',
+  setRepeatClearTimeCode: 'set_repeat_clear',
+  sleepSwitchCode: 'do_not_disturb_state',
+  setSleepPlanCode: 'do_not_disturb',
+  clearPlanSwitchCode: 'clear_plan_sw',
+  setClearPlanCode: 'set_clear_plan',
+  childLockCode: 'child_lock',
+
+  workModeCode: 'work_mode',
+  intermittentSettingCode: 'intermittent_setting',
+  powerModeCode: 'power_mode',
+  batteryLevelCode: 'battery_level',
+  pumpTimeCode: 'pump_time',
+  cleanTimerSettingCode: 'clean_timer_setting',
+  cleanTypeCode: 'clean_type',
+  workStateCode: 'work_state',
+  cleanTimeCode: 'clean_time',
+};
