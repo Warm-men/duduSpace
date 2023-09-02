@@ -14,6 +14,8 @@ import TipModal from '@components/tipModal';
 import Tip1 from './tip1';
 import Tip2 from './tip2';
 import Tip3 from './tip3';
+import Tip4 from './tip4';
+import Tip5 from './tip5';
 import StatusPopup from './statusPopup';
 import WorkRecord from './workRecord';
 import { getLogInSpecifiedTime } from '../../api';
@@ -352,6 +354,8 @@ const Home: React.FC = () => {
           <Tip1 />
           <Tip2 />
           <Tip3 />
+          <Tip4 />
+          <Tip5 />
         </View>
         <View style={styles.bannerView}>
           {faultArr.length > 1 ? (

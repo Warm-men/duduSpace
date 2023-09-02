@@ -7,48 +7,58 @@ import String from '@i18n';
 import { dpCodes } from '@config';
 import TipPop from '@components/tip';
 
-const { convertX: cx } = Utils.RatioUtils;
-
+const { convert: c, convertX: cx, convertY: cy } = Utils.RatioUtils;
 const { faultCode } = dpCodes;
 const Tip: React.FC = () => {
   const { [faultCode]: fault } = useSelector(({ dpState }: any) => ({
     [faultCode]: dpState[faultCode],
   }));
   const { deviceOnline } = useSelector(({ devInfo }: any) => devInfo);
+
   const navigation = useNavigation();
 
-  const handleOnPress = () => {
-    navigation.navigate('upperCover'); // 跳转到安装说明页面
+  const fault1 = Utils.NumberUtils.getBitValue(fault, 1) === 1;
+  const fault2 = Utils.NumberUtils.getBitValue(fault, 2) === 1;
+  const getLabel = () => {
+    // 1.便仓异常 2.便仓满
+    if (fault1) {
+      return String.getLang('abnormal');
+    }
+    if (fault2) {
+      return String.getLang('full');
+    }
+    return String.getLang('regular');
   };
-  // 3.上盖异常
-  const isFault = Utils.NumberUtils.getBitValue(fault, 3) === 1;
 
-  const _renderText = () => {
+  const renderPopTip = () => {
     return (
       <TYText style={styles.text1}>
-        {String.getLang('upper_cover')}
-        <TYText style={[styles.text2, { color: isFault ? '#FA5F5F' : '#44B74A' }]}>
-          {!isFault ? String.getLang('regular') : String.getLang('abnormal')}
+        {String.getLang('warehouse')}
+        <TYText style={[styles.text2, { color: fault1 || fault2 ? '#FA5F5F' : '#44B74A' }]}>
+          {getLabel()}
         </TYText>
       </TYText>
     );
   };
+
   return (
     <TipPop
-      style={{ position: 'absolute', top: cx(18), left: cx(16) }}
+      style={{ position: 'absolute', bottom: cx(26), right: cx(0), width: cx(100) }}
       boxStyle={{ flexDirection: 'column' }}
       subTitleStyle={{ color: 'red' }}
-      onPress={handleOnPress}
+      onPress={() => {
+        navigation.navigate('warehouseStatus');
+      }}
       lineStyle={{
         position: 'absolute',
-        top: cx(33),
-        left: cx(84),
-        width: cx(54),
+        bottom: cx(40),
+        right: cx(90),
+        width: cx(60),
         height: cx(60),
       }}
-      isHDirect={true}
-      isVDirect={true}
-      renderText={_renderText}
+      isHDirect={false}
+      isVDirect={false}
+      renderText={renderPopTip}
       disabled={!deviceOnline}
     />
   );
@@ -64,7 +74,7 @@ const styles = StyleSheet.create({
   },
   text2: {
     fontSize: cx(12),
-    color: '#44B74A',
+    color: '#FA5F5F',
     lineHeight: cx(16),
   },
 });

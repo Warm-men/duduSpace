@@ -267,6 +267,11 @@ export default {
     sound_switch: 'Mute',
     attached_action: 'Embedded settings',
     attached_action_tip: 'After startup, the device will automatically embed before each cleaning',
+    roller: 'Roller: ',
+    roller_fault: 'Unable to arrive in place',
+    lock: 'Lock',
+    lock_on: 'Click to unlock',
+    lock_off: 'Click to lock',
   },
   zh: {
     home_title: '猫砂盆',
@@ -523,5 +528,10 @@ export default {
     sound_switch: '静音',
     attached_action: '预埋设置',
     attached_action_tip: '开启后每次清理前设备会自动预埋',
+    roller: '滚筒：',
+    roller_fault: '无法到位',
+    lock: '上锁',
+    lock_on: '点击可开锁',
+    lock_off: '点击可上锁',
   },
 };
