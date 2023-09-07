@@ -39,8 +39,9 @@ const Tip: React.FC<Props> = props => {
   const strokeWidthR = cx(0.5);
 
   const getPath = () => {
-    const path = `M${isHDirect ? width : 0} ${isVDirect ? height : 0} L${isHDirect ? cx(25) : width - cx(25)
-      } ${isVDirect ? 0 : height} L${isHDirect ? 0 : width} ${isVDirect ? 0 : height}`;
+    const path = `M${isHDirect ? width : 0} ${isVDirect ? height : 0} L${
+      isHDirect ? cx(25) : width - cx(25)
+    } ${isVDirect ? 0 : height} L${isHDirect ? 0 : width} ${isVDirect ? 0 : height}`;
 
     return path;
   };
@@ -123,11 +124,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: cx(6),
     // minWidth: cx(84),
     maxWidth: cx(100),
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
     borderRadius: cx(8),
-    shadowOpacity: 0.3,
-    elevation: 3,
-    shadowRadius: 2,
+    shadowColor: '#999',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.2,
+    elevation: 4, // 关键, 设置值跟shadowRadius一致
+    shadowRadius: 4,
+    marginVertical: cx(4),
+    marginHorizontal: cx(4),
   },
 });

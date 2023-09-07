@@ -233,11 +233,7 @@ export const hexTo10 = (HEX: string) => {
  * @return: targetObject: 格式化后的对象
  * */
 
-export const formatDec = (
-  dpString: string,
-  formatObject: string[],
-  dpStringLen: number,
-) => {
+export const formatDec = (dpString: string, formatObject: string[], dpStringLen: number) => {
   // 将dec字符串转换成2个字符串为一组的数组
   if (!dpString || dpString.length < dpStringLen) return {};
   // 截取dpString的前12个字符

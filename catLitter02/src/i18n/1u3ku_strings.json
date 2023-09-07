@@ -213,6 +213,7 @@
 		"status_6": " end",
 		"status_7": " motor stall",
 		"status_8": " planned time conflict",
+		"status_9": " duplicate cleaning",
 		"error_1": ", the toilet is not in place",
 		"error_2": ", the toilet is full",
 		"error_3": ", abnormal upper cover",
@@ -221,6 +222,7 @@
 		"error_6": ", cat approaching",
 		"error_7": ", motor stall",
 		"error_8": ", planned time conflict",
+		"error_9": ", duplicate cleaning",
 		"no_record": "No record",
 		"no_record_today": "No record today",
 		"upper_cover_install": "Upper cover installation",
@@ -248,7 +250,14 @@
 		"roller_fault": "Unable to arrive in place",
 		"lock": "Lock",
 		"lock_on": "Click to unlock",
-		"lock_off": "Click to lock"
+		"lock_off": "Click to lock",
+		"force_action_title_0": "If you want to forcibly clean, please confirm that the cat is not near the device, otherwise continue to wait!",
+		"force_action_title_1": "If you want to forcibly dump cat litter, please confirm that the cat is not near the device, otherwise continue to wait!",
+		"force_action_title_2": "If you want to forcibly level the cat litter, please confirm that the cat is not near the device, otherwise continue to wait!",
+		"keep_waiting": "Continue to wait",
+		"force_action_0": "Forced cleaning",
+		"force_action_1": "Forced dumping",
+		"force_action_2": "Forced leveling"
 	},
 	"zh": {
 		"home_title": "猫砂盆",
@@ -464,6 +473,7 @@
 		"status_6": "终止",
 		"status_7": "马达堵转",
 		"status_8": "计划时间冲突",
+		"status_9": "重复清理",
 		"error_1": "，便仓未到位",
 		"error_2": "，便仓已满",
 		"error_3": "，上盖异常",
@@ -472,6 +482,7 @@
 		"error_6": "，猫咪靠近",
 		"error_7": "，马达堵转",
 		"error_8": "，计划时间冲突",
+		"error_9": "，重复清理",
 		"no_record": "暂无记录",
 		"no_record_today": "今天暂无工作记录",
 		"upper_cover_install": "上盖安装",
@@ -499,6 +510,13 @@
 		"roller_fault": "无法到位",
 		"lock": "上锁",
 		"lock_on": "点击可开锁",
-		"lock_off": "点击可上锁"
+		"lock_off": "点击可上锁",
+		"force_action_title_0": "若要强行清理请确认猫咪不在设备附近，否则继续等待!",
+		"force_action_title_1": "若要强行倾倒猫砂请确认猫咪不在设备附近，否则继续等待!",
+		"force_action_title_2": "若要强行平整猫砂请确认猫咪不在设备附近，否则继续等待!",
+		"keep_waiting": "继续等待",
+		"force_action_0": "强行清理",
+		"force_action_1": "强行倾倒",
+		"force_action_2": "强行平整"
 	}
 }

@@ -4,7 +4,7 @@ import { Toast, TYSdk, TYText, Utils, TopBar, Notification } from 'tuya-panel-ki
 import moment from 'moment';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { useNavigation } from '@react-navigation/native';
-import { commonColor, commonStyles, dpCodes } from '@config';
+import { commonColor, dpCodes } from '@config';
 import { useSelector, useDispatch } from 'react-redux';
 import Res from '@res';
 import String from '@i18n';
@@ -27,9 +27,8 @@ const {
   sleepSwitchCode,
   setSleepPlanCode,
 } = dpCodes;
-const { convert: c, convertX: cx, convertY: cy, isIphoneX } = Utils.RatioUtils;
+const { convertX: cx, isIphoneX } = Utils.RatioUtils;
 const Home: React.FC = () => {
-  const dispatch = useDispatch();
   const {
     [faultCode]: fault,
     [uploadRollerStateCode]: uploadRollerState,
@@ -162,7 +161,7 @@ const Home: React.FC = () => {
   };
 
   const getErrorBitmap2FaultList = (errorCode: number) => {
-    const errorCodeList = [1, 2, 3, 4, 5, 6, 7, 8];
+    const errorCodeList = [1, 2, 3, 4, 5, 6, 7, 8, 9];
     // 用errorCodeList遍历errorCode获取对应位置是否有值，有值则返回对应的faultCode
     return errorCodeList
       .map((item: number) => {

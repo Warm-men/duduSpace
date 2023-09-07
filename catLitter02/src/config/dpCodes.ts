@@ -16,4 +16,6 @@ export default {
   reportCode: 'report',
   soundSwitchCode: 'sound_sw',
   attachedActionCode: 'attached_action',
+  autoLockEnableCode: 'auto_lock_enable',
+  coerceExeCode: 'coerce_exe',
 };

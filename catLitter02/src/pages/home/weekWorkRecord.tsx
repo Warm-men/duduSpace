@@ -240,7 +240,7 @@ const WeekWorkRecord: React.FC = (props: IProps) => {
   };
 
   const getErrorBitmap2FaultList = (errorCode: number) => {
-    const errorCodeList = [1, 2, 3, 4, 5, 6, 7, 8];
+    const errorCodeList = [1, 2, 3, 4, 5, 6, 7, 8, 9];
     // 用errorCodeList遍历errorCode获取对应位置是否有值，有值则返回对应的faultCode
     return errorCodeList
       .map((item: number) => {

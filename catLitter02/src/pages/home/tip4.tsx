@@ -6,7 +6,7 @@ import String from '@i18n';
 import { dpCodes } from '@config';
 import TipPop from '@components/tip';
 
-const { convert: c, convertX: cx, convertY: cy } = Utils.RatioUtils;
+const { convertX: cx } = Utils.RatioUtils;
 const { childLockCode } = dpCodes;
 const Tip: React.FC = () => {
   const { [childLockCode]: childLock } = useSelector(({ dpState }: any) => ({
@@ -30,7 +30,7 @@ const Tip: React.FC = () => {
     );
   };
 
-  return (
+  return !childLock ? null : (
     <TipPop
       style={{ position: 'absolute', top: cx(136), right: cx(0), width: cx(90) }}
       boxStyle={{ flexDirection: 'column' }}
@@ -67,5 +67,5 @@ const styles = StyleSheet.create({
     fontSize: cx(12),
     color: 'rgba(124, 114, 105, 1)',
     lineHeight: cx(16),
-  }
+  },
 });

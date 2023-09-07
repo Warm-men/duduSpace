@@ -8,7 +8,7 @@ import moment from 'moment';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 
-const { childLockCode } = dpCodes;
+const { childLockCode, autoLockEnableCode } = dpCodes;
 
 const Setting: React.FC = props => {
   const { [childLockCode]: childLock } = useSelector(({ dpState }: any) => dpState);
@@ -148,7 +148,7 @@ const Setting: React.FC = props => {
       desc: i18n.getLang('child_lock_tip'),
       value: childLock,
       onPress: value => {
-        TYSdk.device.putDeviceData({ [childLockCode]: value });
+        TYSdk.device.putDeviceData({ [childLockCode]: value, [autoLockEnableCode]: value });
       },
       isBool: true,
     },
