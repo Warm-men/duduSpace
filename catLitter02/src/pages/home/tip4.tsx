@@ -7,11 +7,14 @@ import { dpCodes } from '@config';
 import TipPop from '@components/tip';
 
 const { convertX: cx } = Utils.RatioUtils;
-const { childLockCode } = dpCodes;
+const { childLockCode, autoLockEnableCode } = dpCodes;
 const Tip: React.FC = () => {
-  const { [childLockCode]: childLock } = useSelector(({ dpState }: any) => ({
-    [childLockCode]: dpState[childLockCode],
-  }));
+  const { [childLockCode]: childLock, [autoLockEnableCode]: autoLockEnable } = useSelector(
+    ({ dpState }: any) => ({
+      [childLockCode]: dpState[childLockCode],
+      [autoLockEnableCode]: dpState[autoLockEnableCode],
+    })
+  );
   const { deviceOnline } = useSelector(({ devInfo }: any) => devInfo);
 
   const getLabel = () => {
@@ -30,7 +33,7 @@ const Tip: React.FC = () => {
     );
   };
 
-  return !childLock ? null : (
+  return !childLock && !autoLockEnable ? null : (
     <TipPop
       style={{ position: 'absolute', top: cx(136), right: cx(0), width: cx(90) }}
       boxStyle={{ flexDirection: 'column' }}

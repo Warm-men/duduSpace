@@ -27,7 +27,7 @@ const PopUp = (props: any) => {
 
   const [isVisiblePop, setIsVisiblePop] = useState(false);
   const [isVisibleModal, setIsVisibleModal] = useState(false);
-  const [showForceAction, setShowForceAction] = useState(true);
+  const [showForceAction, setShowForceAction] = useState(false);
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
