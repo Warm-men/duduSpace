@@ -166,9 +166,9 @@ const PopUp = (props: any) => {
     const isFault6 = Utils.NumberUtils.getBitValue(errorCode, 6) === 1;
 
     const faultList = getErrorBitmap2FaultList(errorCode); // 1, 2, 3, 5, 7, 8, 9
-    const faultList22 = getErrorBitmap2FaultList(fault); // 1, 2, 3, 5, 7, 8, 9
+    // const faultList22 = getErrorBitmap2FaultList(fault); // 1, 2, 3, 5, 7, 8, 9
 
-    const isFault = faultList.length > 0 || faultList22.length > 0;
+    const isFault = faultList.length > 0;
     // 设备故障，xxx已暂停，10分钟内故障清除，继续执行xxx
     const textFault =
       Strings.getLang('equipment_failure') +
