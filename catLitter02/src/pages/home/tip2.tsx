@@ -169,7 +169,7 @@ const Tip: React.FC = () => {
 
   return (
     <TipPop
-      style={{ position: 'absolute', bottom: cx(26), left: cx(16), width: cx(74) }}
+      style={{ position: 'absolute', bottom: cx(26), left: cx(14), width: cx(84) }}
       boxStyle={{ flexDirection: 'column' }}
       subTitleStyle={{ color: 'red' }}
       onPress={() => {

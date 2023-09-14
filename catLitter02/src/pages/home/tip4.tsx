@@ -17,18 +17,15 @@ const Tip: React.FC = () => {
   );
   const { deviceOnline } = useSelector(({ devInfo }: any) => devInfo);
 
-  const getLabel = () => {
-    if (childLock) {
-      return String.getLang('lock_on');
-    }
-    return String.getLang('lock_off');
-  };
-
   const renderPopTip = () => {
     return (
       <View>
-        <TYText style={styles.text1}>{String.getLang('lock')}</TYText>
-        <TYText style={[styles.text2]}>{getLabel()}</TYText>
+        <TYText style={styles.text1}>
+          {childLock ? String.getLang('lock_on_title') : String.getLang('lock_off_title')}
+        </TYText>
+        <TYText style={[styles.text2]}>
+          {childLock ? String.getLang('lock_on') : String.getLang('lock_off')}
+        </TYText>
       </View>
     );
   };

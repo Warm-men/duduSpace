@@ -3,7 +3,7 @@
   "license": "MIT",
   "name": "1u3ku",
   "author": "",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "lint": "prettier --write '**/*.{js,jsx,ts,tsx}'",
