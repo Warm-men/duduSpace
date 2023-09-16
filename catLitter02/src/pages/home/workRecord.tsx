@@ -74,7 +74,7 @@ const WorkRecord: React.FC = (props: IProps) => {
   };
 
   // Data[0]:滚简模式 0-待机模式 1-手动清理 2-定时清理 3-自动清理 4-倾倒猫砂 5-平整猫砂 6--手动清理复位 7--定时清理复位 8--自动清理复位 9--倾倒猫砂复位 10-平整猫砂复位 11-其它复位(故障复位)
-  // Data[1]: 0-待机 1-异常暂停 2-人为暂停 3-执行中 4-停止失败 5-操作完成 (遇到故障暂停) (APP操作暂停) 恢复执行) (超10分钟操作停止)(10分钟内继续执行)
+  // Data[1]:滚筒状态 0-待机 1-异常暂停 2-人为暂停 3-执行中 4-停止失败 5--操作完成 6-强制执行 7-强制执行停止失败 8-强制执行完成
   // Data[2]: 错误原因 0:正常 1:便仓未到位 2便仓已满 3上盖异常 4猫进入 5滚筒无法到位 6猫靠近 7:计划时间冲突
   // Dat[3]--Dat[8] 是猫如厕的时间，如果是非自动清理模式，则填充0 （以记录型的DP上报）
   // 根据item的dpId返回对应的icon
@@ -99,7 +99,7 @@ const WorkRecord: React.FC = (props: IProps) => {
     return icon.cat;
   };
   // Data[0]:滚简模式 0-待机模式 1-手动清理 2-定时清理 3-自动清理 4-倾倒猫砂 5-平整猫砂 6--手动清理复位 7--定时清理复位 8--自动清理复位 9--倾倒猫砂复位 10-平整猫砂复位 11-其它复位(故障复位)
-  // Data[1]: 0-待机 1-异常暂停 2-人为暂停 3-执行中 4-失败 5-完成 (遇到故障暂停) (APP操作暂停) 恢复执行) (超10分钟操作停止)(10分钟内继续执行) 6-终止
+  // Data[1]:滚筒状态 0-待机 1-异常暂停 2-人为暂停 3-执行中 4-停止失败 5--操作完成 6-强制执行 7-强制执行停止失败 8-强制执行完成
   // Data[2]: 错误原因 0:正常 1:便仓未到位 2便仓已满 3上盖异常 4猫进入 5滚筒无法到位 6猫靠近 7:计划时间冲突
   // Dat[3]--Dat[8] 是猫如厕的时间，如果是非自动清理模式，则填充0 （以记录型的DP上报）
   // 返回描述文本：106dp文本格式：猫咪停留 xx 分 xx 秒；127dp文本格式：模式+状态+错误原因（失败情况下才携带失败原因）
@@ -133,13 +133,21 @@ const WorkRecord: React.FC = (props: IProps) => {
       const resetStatus = [6, 7, 8, 9, 10, 11];
       if (resetStatus.includes(mode)) {
         modeText = String.getLang(`mode_${reset2Mode[mode]}`);
-        if (status === 5) {
-          // 模式复位完成，标记为模式终止
+        if ([5].includes(status)) {
+          // 模式复位完成、，标记为模式终止
           statusText = String.getLang(`status_6`);
         }
       }
       if (mode === 11) {
         modeText = String.getLang(`mode_11`);
+      }
+      if ([7].includes(status)) {
+        // 强制执行停止失败，标记为模式终止
+        statusText = String.getLang(`status_6`);
+      }
+      if ([8].includes(status)) {
+        // 强制执行完成，标记为操作完成
+        statusText = String.getLang(`status_5`);
       }
 
       const faultList = getErrorBitmap2FaultList(error);
@@ -206,9 +214,6 @@ const WorkRecord: React.FC = (props: IProps) => {
           </View>
         )}
         {allRecordList.map((item, index) => {
-          // if (item.dpId === 127 && item.value.mode === 0) {
-          //   return null;
-          // }
           const timeText = getTimeText(item.timeStr);
           const icon = getIcon(item);
           const label = getLabel(item);

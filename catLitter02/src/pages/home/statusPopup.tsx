@@ -35,7 +35,7 @@ const PopUp = (props: any) => {
     const uploadRollerStateData = getUploadRollerState(uploadRollerState);
 
     // Data[0]:滚简模式 0-待机模式 1-手动清理 2-定时清理 3-自动清理 4-倾倒猫砂 5-平整猫砂 6--手动清理复位 7--定时清理复位 8--自动清理复位 9--倾倒猫砂复位 10-平整猫砂复位 11-其它复位(故障复位)
-    // Data[1]:滚筒状态 0-待机 1-异常暂停 2-人为暂停 3-执行中 4-失败 5--完成 6-终止
+    // Data[1]:滚筒状态 0-待机 1-异常暂停 2-人为暂停 3-执行中 4-停止失败 5--操作完成 6-强制执行 7-强制执行停止失败 8-强制执行完成
     // Data[2]: 错误原因 0:正常 1:便仓未到位 2集便仓已满 3上盖异常 4猫进入 5滚筒无法到位 6猫靠近 7：马达堵转 8：计划时间冲突
     const { rollerMode, errorCode, rollerState } = uploadRollerStateData;
 
@@ -49,10 +49,11 @@ const PopUp = (props: any) => {
       // home 故障显示设备异常信息，根据dp22值显示
       setIsVisiblePop(false);
       setIsVisibleModal(false);
+      setShowForceAction(false);
       return;
     }
 
-    const needShowState = [1, 2, 3]; // 1-异常暂停 2-人为暂停 3-执行中
+    const needShowState = [1, 2, 3, 6]; // 1-异常暂停 2-人为暂停 3-执行中 6-强制执行
     // / const needShowMode = [1, 4, 5, 6, 7, 8, 9, 10, 11]; // 1-手动清理 4-倾倒猫砂 5-平整猫砂 6--手动清理复位 9--倾倒猫砂复位 10-平整猫砂复位 11-其它复位(故障复位)
     if (needShowState.includes(rollerState)) {
       setIsVisiblePop(true);
@@ -157,7 +158,7 @@ const PopUp = (props: any) => {
 
   const getButtons = () => {
     // Data[0]:滚简模式 0-待机模式 1-手动清理 2-定时清理 3-自动清理 4-倾倒猫砂 5-平整猫砂 6--手动清理复位 7--定时清理复位 8--自动清理复位 9--倾倒猫砂复位 10-平整猫砂复位 11-其它复位(故障复位)
-    // Data[1]: 0-待机 1-异常暂停 2-人为暂停 3-执行中 4-停止失败 5-操作完成 (遇到故障暂停) (APP操作暂停) 恢复执行) (超10分钟操作停止)(10分钟内继续执行)
+    // Data[1]:滚筒状态 0-待机 1-异常暂停 2-人为暂停 3-执行中 4-停止失败 5--操作完成 6-强制执行 7-强制执行停止失败 8-强制执行完成
     // Data[2]: 错误原因 0:正常 1:便仓未到位 2集便仓已满 3上盖异常 4猫进入 5滚筒无法到位 6猫靠近 7：马达堵转 8：计划时间冲突
     const uploadRollerStateData = getUploadRollerState(uploadRollerState);
     const { rollerMode, rollerState, errorCode } = uploadRollerStateData;

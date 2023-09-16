@@ -56,36 +56,25 @@ const Home: React.FC = () => {
     const uploadRollerStateData = getUploadRollerState(uploadRollerState);
     const { rollerMode, rollerState, errorCode } = uploadRollerStateData;
     // Data[0]:滚简模式 0-待机模式 1-手动清理 2-定时清理 3-自动清理 4-倾倒猫砂 5-平整猫砂 6--手动清理复位 7--定时清理复位 8--自动清理复位 9--倾倒猫砂复位 10-平整猫砂复位 11-其它复位(故障复位)
-    // Data[1]: 0-待机 1-异常暂停 2-人为暂停 3-执行中 4-失败 5--完成 6--终止
+    // Data[1]:滚筒状态 0-待机 1-异常暂停 2-人为暂停 3-执行中 4-停止失败 5--操作完成 6-强制执行 7-强制执行停止失败 8-强制执行完成
     // Data[2]:错误原因 0：正常 1：便仓未到位 2：便仓已满 3：上盖异常 4：猫进入 5：滚筒无法到位 6：猫靠近 7： 计划时间冲突
-    if (rollerMode === 1 && rollerState === 5 && errorCode === 0) {
-      // 手动清理完成
-      setSuccessHint(String.getLang('successHint_1_5_0'));
+    if ([5, 8].includes(rollerState) && errorCode === 0) {
+      let hint = '';
+      if (rollerMode === 1) hint = String.getLang('successHint_1_5_0'); // 手动清理完成
+      if (rollerMode === 4) hint = String.getLang('successHint_4_5_0'); // 倾倒猫砂完成
+      if (rollerMode === 5) hint = String.getLang('successHint_5_5_0'); // 平整猫砂完成
+      if (!hint) return;
+      setSuccessHint(hint);
       setSuccessShow(true);
     }
-    if (rollerMode === 1 && rollerState === 4 && errorCode === 0) {
+    if ([4, 7].includes(rollerState) && errorCode === 0) {
+      let hint = '';
+      if (rollerMode === 1) hint = String.getLang('successHint_1_4_0'); // 手动清理失败
+      if (rollerMode === 4) hint = String.getLang('successHint_4_4_0'); // 倾倒猫砂失败
+      if (rollerMode === 5) hint = String.getLang('successHint_5_4_0'); // 平整猫砂失败
       // 手动清理失败
-      setFailHint(String.getLang('successHint_1_4_0'));
-      setFailShow(true);
-    }
-    if (rollerMode === 4 && rollerState === 5 && errorCode === 0) {
-      // 倾倒猫砂完成
-      setSuccessHint(String.getLang('successHint_4_5_0'));
-      setSuccessShow(true);
-    }
-    if (rollerMode === 4 && rollerState === 4 && errorCode === 0) {
-      // 倾倒猫砂失败
-      setFailHint(String.getLang('successHint_4_4_0'));
-      setFailShow(true);
-    }
-    if (rollerMode === 5 && rollerState === 5 && errorCode === 0) {
-      // 平整猫砂完成
-      setSuccessHint(String.getLang('successHint_5_5_0'));
-      setSuccessShow(true);
-    }
-    if (rollerMode === 5 && rollerState === 4 && errorCode === 0) {
-      // 平整猫砂失败
-      setFailHint(String.getLang('successHint_5_4_0'));
+      if (!hint) return;
+      setFailHint(hint);
       setFailShow(true);
     }
   }, [uploadRollerState]);
@@ -104,35 +93,6 @@ const Home: React.FC = () => {
       clearInterval(timer.current);
     };
   }, []);
-
-  // useEffect(() => {
-  //   if (!sleepSwitch) {
-  //     return setIsSleep(false);
-  //   }
-  //   const { startTime, endTime } = sleepString2Data(setSleepPlan);
-  //   // 判断当前时间是否在睡眠时间内
-  //   const _hour = moment().hour();
-  //   const _minute = moment().minute();
-  //   const _time = _hour * 60 + _minute;
-  //   // let _endTime = endTime;
-  //   if (endTime > startTime) {
-  //     // 时间段在同一天内
-  //     if (_time >= startTime && _time <= endTime) {
-  //       setIsSleep(true);
-  //     } else {
-  //       setIsSleep(false);
-  //     }
-  //     return;
-  //   }
-  //   if (endTime < startTime) {
-  //     // 时间段跨天 startTime ~ 23:59 && 00:00 ~ endTime
-  //     if ((_time >= startTime && _time <= 1439) || (_time >= 0 && _time <= endTime)) {
-  //       setIsSleep(true);
-  //     } else {
-  //       setIsSleep(false);
-  //     }
-  //   }
-  // }, [sleepSwitch, setSleepPlan]);
 
   const getTodayDpLog = async () => {
     // 通过moment获取今天的开始时间 startTimer 和结束时间 endTimer
