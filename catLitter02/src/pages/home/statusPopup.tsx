@@ -202,7 +202,7 @@ const PopUp = (props: any) => {
     };
     const pauseManualText = Strings.getLang('roller_state_desc_0_2_0');
     // 执行中，可暂停
-    if (operationMode.includes(rollerMode) && rollerState === 3 && errorCode === 0) {
+    if (operationMode.includes(rollerMode) && [3, 6].includes(rollerState) && errorCode === 0) {
       return {
         button: Buttons.onlyPause,
         text: runningText[rollerMode],
@@ -237,7 +237,7 @@ const PopUp = (props: any) => {
 
     const needReset = [6, 7, 8, 9, 10, 11];
     // 复位过程
-    if (needReset.includes(rollerMode) && rollerState === 3 && errorCode === 0) {
+    if (needReset.includes(rollerMode) && [3, 6].includes(rollerState) && errorCode === 0) {
       // case1: 复位中：可暂停
       return {
         button: Buttons.onlyPause,
