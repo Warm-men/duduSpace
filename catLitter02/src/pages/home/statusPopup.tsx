@@ -202,7 +202,7 @@ const PopUp = (props: any) => {
     };
     const pauseManualText = Strings.getLang('roller_state_desc_0_2_0');
     // 执行中，可暂停
-    if (operationMode.includes(rollerMode) && [3, 7].includes(rollerState) && errorCode === 0) {
+    if (operationMode.includes(rollerMode) && ([3].includes(rollerState) && errorCode === 0 || [7].includes(rollerState))) {
       return {
         button: Buttons.onlyPause,
         text: runningText[rollerMode],
@@ -216,7 +216,7 @@ const PopUp = (props: any) => {
       };
     }
     // 异常暂停、强制执行暂停
-    if (operationMode.includes(rollerMode) && [1, 7].includes(rollerState)) {
+    if (operationMode.includes(rollerMode) && [1, 8].includes(rollerState)) {
       if (isFault4 || isFault6) {
         // case1: 猫咪靠近、猫咪进入，可复位、继续
         return {
@@ -237,14 +237,14 @@ const PopUp = (props: any) => {
 
     const needReset = [6, 7, 8, 9, 10, 11];
     // 复位过程
-    if (needReset.includes(rollerMode) && [3, 6].includes(rollerState) && errorCode === 0) {
+    if (needReset.includes(rollerMode) && ([3].includes(rollerState) && errorCode === 0 || [7].includes(rollerState))) {
       // case1: 复位中：可暂停
       return {
         button: Buttons.onlyPause,
         text: Strings.getLang('roller_state_desc_5_3_0'),
       };
     }
-    if (needReset.includes(rollerMode) && [1, 7].includes(rollerState)) {
+    if (needReset.includes(rollerMode) && [1, 8].includes(rollerState)) {
       // case2: 异常故障暂停，禁用按键
       return {
         button: Buttons.onlyContinue,
