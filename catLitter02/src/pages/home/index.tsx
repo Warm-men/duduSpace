@@ -55,10 +55,10 @@ const Home: React.FC = () => {
     if (!uploadRollerState) return;
     const uploadRollerStateData = getUploadRollerState(uploadRollerState);
     const { rollerMode, rollerState, errorCode } = uploadRollerStateData;
-    // Data[0]:滚简模式 0-待机模式 1-手动清理 2-定时清理 3-自动清理 4-倾倒猫砂 5-平整猫砂 6--手动清理复位 7--定时清理复位 8--自动清理复位 9--倾倒猫砂复位 10-平整猫砂复位 11-其它复位(故障复位)
-    // Data[1]:滚筒状态 0-待机 1-异常暂停 2-人为暂停 3-执行中 4-停止失败 5--操作完成 6-强制执行 7-强制执行停止失败 8-强制执行完成
-    // Data[2]:错误原因 0：正常 1：便仓未到位 2：便仓已满 3：上盖异常 4：猫进入 5：滚筒无法到位 6：猫靠近 7： 计划时间冲突
-    if ([5, 8].includes(rollerState) && errorCode === 0) {
+    // Data[0]:滚简模式 0-待机模式 1-手动清理 2-定时清理 3-自动清理 4-倾倒猫砂 5-平整猫砂 6--手动清理复位 7--定时清理复位 8--自动清理复位 9--倾倒猫砂复位 10-平整猫砂复位 11-其它复位(故障复位) 12-猫如厕模式
+    // Data[1]:滚筒状态 0-待机、1-异常暂停、2-人为暂停、3-执行中、4-停止失败、5-操作完成、6-人为强制暂停、7-强制执行、8-强制执行停止失败、9-强制执行操作完成
+    // Data[2]: 错误原因 0:正常 1:便仓未到位 2集便仓已满 3上盖异常 4猫进入 5滚筒无法到位 6猫靠近 7：马达堵转 8：计划时间冲突
+    if ([5, 9].includes(rollerState) && errorCode === 0) {
       let hint = '';
       if (rollerMode === 1) hint = String.getLang('successHint_1_5_0'); // 手动清理完成
       if (rollerMode === 4) hint = String.getLang('successHint_4_5_0'); // 倾倒猫砂完成
@@ -67,7 +67,7 @@ const Home: React.FC = () => {
       setSuccessHint(hint);
       setSuccessShow(true);
     }
-    if ([4, 7].includes(rollerState) && errorCode === 0) {
+    if ([4, 8].includes(rollerState) && errorCode === 0) {
       let hint = '';
       if (rollerMode === 1) hint = String.getLang('successHint_1_4_0'); // 手动清理失败
       if (rollerMode === 4) hint = String.getLang('successHint_4_4_0'); // 倾倒猫砂失败

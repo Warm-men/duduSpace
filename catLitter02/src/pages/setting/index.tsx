@@ -148,7 +148,11 @@ const Setting: React.FC = props => {
       desc: i18n.getLang('child_lock_tip'),
       value: childLock,
       onPress: value => {
-        TYSdk.device.putDeviceData({ [childLockCode]: value, [autoLockEnableCode]: value });
+        TYSdk.device.putDeviceData({ [childLockCode]: value });
+        // 不延迟就会漏发   导致设置页与首页的状态不一致 FIXME: 设备缺陷
+        setTimeout(() => {
+          TYSdk.device.putDeviceData({ [autoLockEnableCode]: value });
+        }, 600);
       },
       isBool: true,
     },

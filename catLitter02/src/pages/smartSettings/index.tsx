@@ -194,10 +194,16 @@ const SmartSettings: React.FC = (props: any) => {
             <SwitchButton
               size={size}
               onValueChange={value => {
+                if (value && clearPlanSwitch) {
+                  TYSdk.device.putDeviceData({
+                    [autoCleanCode]: value,
+                    [clearPlanSwitchCode]: false,
+                  });
+                  return;
+                }
                 TYSdk.device.putDeviceData({ [autoCleanCode]: value });
               }}
               value={autoClean}
-              disabled={clearPlanSwitch}
               onTintColor="#DFA663"
             />
           </View>

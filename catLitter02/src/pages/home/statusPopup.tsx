@@ -35,7 +35,7 @@ const PopUp = (props: any) => {
     const uploadRollerStateData = getUploadRollerState(uploadRollerState);
 
     // Data[0]:滚简模式 0-待机模式 1-手动清理 2-定时清理 3-自动清理 4-倾倒猫砂 5-平整猫砂 6--手动清理复位 7--定时清理复位 8--自动清理复位 9--倾倒猫砂复位 10-平整猫砂复位 11-其它复位(故障复位)
-    // Data[1]:滚筒状态 0-待机 1-异常暂停 2-人为暂停 3-执行中 4-停止失败 5--操作完成 6-强制执行 7-强制执行停止失败 8-强制执行完成
+    // Data[1]:滚筒状态 0-待机、1-异常暂停、2-人为暂停、3-执行中、4-停止失败、5-操作完成、6-人为强制暂停、7-强制执行、8-强制执行停止失败、9-强制执行操作完成
     // Data[2]: 错误原因 0:正常 1:便仓未到位 2集便仓已满 3上盖异常 4猫进入 5滚筒无法到位 6猫靠近 7：马达堵转 8：计划时间冲突
     const { rollerMode, errorCode, rollerState } = uploadRollerStateData;
 
@@ -53,7 +53,7 @@ const PopUp = (props: any) => {
       return;
     }
 
-    const needShowState = [1, 2, 3, 6]; // 1-异常暂停 2-人为暂停 3-执行中 6-强制执行
+    const needShowState = [1, 2, 3, 6, 7]; // 1-异常暂停 2-人为暂停 3-执行中 6-强制执行 7-强制执行
     // / const needShowMode = [1, 4, 5, 6, 7, 8, 9, 10, 11]; // 1-手动清理 4-倾倒猫砂 5-平整猫砂 6--手动清理复位 9--倾倒猫砂复位 10-平整猫砂复位 11-其它复位(故障复位)
     if (needShowState.includes(rollerState)) {
       setIsVisiblePop(true);
@@ -157,8 +157,8 @@ const PopUp = (props: any) => {
   };
 
   const getButtons = () => {
-    // Data[0]:滚简模式 0-待机模式 1-手动清理 2-定时清理 3-自动清理 4-倾倒猫砂 5-平整猫砂 6--手动清理复位 7--定时清理复位 8--自动清理复位 9--倾倒猫砂复位 10-平整猫砂复位 11-其它复位(故障复位)
-    // Data[1]:滚筒状态 0-待机 1-异常暂停 2-人为暂停 3-执行中 4-停止失败 5--操作完成 6-强制执行 7-强制执行停止失败 8-强制执行完成
+    // Data[0]:滚简模式 0-待机模式 1-手动清理 2-定时清理 3-自动清理 4-倾倒猫砂 5-平整猫砂 6--手动清理复位 7--定时清理复位 8--自动清理复位 9--倾倒猫砂复位 10-平整猫砂复位 11-其它复位(故障复位) 12-猫如厕模式
+    // Data[1]:滚筒状态 0-待机、1-异常暂停、2-人为暂停、3-执行中、4-停止失败、5-操作完成、6-人为强制暂停、7-强制执行、8-强制执行停止失败、9-强制执行操作完成
     // Data[2]: 错误原因 0:正常 1:便仓未到位 2集便仓已满 3上盖异常 4猫进入 5滚筒无法到位 6猫靠近 7：马达堵转 8：计划时间冲突
     const uploadRollerStateData = getUploadRollerState(uploadRollerState);
     const { rollerMode, rollerState, errorCode } = uploadRollerStateData;
@@ -202,7 +202,7 @@ const PopUp = (props: any) => {
     };
     const pauseManualText = Strings.getLang('roller_state_desc_0_2_0');
     // 执行中，可暂停
-    if (operationMode.includes(rollerMode) && [3, 6].includes(rollerState) && errorCode === 0) {
+    if (operationMode.includes(rollerMode) && [3, 7].includes(rollerState) && errorCode === 0) {
       return {
         button: Buttons.onlyPause,
         text: runningText[rollerMode],
@@ -215,8 +215,8 @@ const PopUp = (props: any) => {
         text: pauseManualText,
       };
     }
-    // 异常暂停
-    if (operationMode.includes(rollerMode) && rollerState === 1) {
+    // 异常暂停、强制执行暂停
+    if (operationMode.includes(rollerMode) && [1, 7].includes(rollerState)) {
       if (isFault4 || isFault6) {
         // case1: 猫咪靠近、猫咪进入，可复位、继续
         return {
@@ -244,7 +244,7 @@ const PopUp = (props: any) => {
         text: Strings.getLang('roller_state_desc_5_3_0'),
       };
     }
-    if (needReset.includes(rollerMode) && rollerState === 1) {
+    if (needReset.includes(rollerMode) && [1, 7].includes(rollerState)) {
       // case2: 异常故障暂停，禁用按键
       return {
         button: Buttons.onlyContinue,

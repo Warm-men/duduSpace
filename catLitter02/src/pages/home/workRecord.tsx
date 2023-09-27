@@ -73,9 +73,9 @@ const WorkRecord: React.FC = (props: IProps) => {
     return moment(time).format('HH:mm');
   };
 
-  // Data[0]:滚简模式 0-待机模式 1-手动清理 2-定时清理 3-自动清理 4-倾倒猫砂 5-平整猫砂 6--手动清理复位 7--定时清理复位 8--自动清理复位 9--倾倒猫砂复位 10-平整猫砂复位 11-其它复位(故障复位)
-  // Data[1]:滚筒状态 0-待机 1-异常暂停 2-人为暂停 3-执行中 4-停止失败 5--操作完成 6-强制执行 7-强制执行停止失败 8-强制执行完成
-  // Data[2]: 错误原因 0:正常 1:便仓未到位 2便仓已满 3上盖异常 4猫进入 5滚筒无法到位 6猫靠近 7:计划时间冲突
+  // Data[0]:滚简模式 0-待机模式 1-手动清理 2-定时清理 3-自动清理 4-倾倒猫砂 5-平整猫砂 6--手动清理复位 7--定时清理复位 8--自动清理复位 9--倾倒猫砂复位 10-平整猫砂复位 11-其它复位(故障复位) 12-猫如厕模式
+  // Data[1]:滚筒状态 0-待机、1-异常暂停、2-人为暂停、3-执行中、4-停止失败、5-操作完成、6-人为强制暂停、7-强制执行、8-强制执行停止失败、9-强制执行操作完成
+  // Data[2]: 错误原因 0:正常 1:便仓未到位 2集便仓已满 3上盖异常 4猫进入 5滚筒无法到位 6猫靠近 7：马达堵转 8：计划时间冲突
   // Dat[3]--Dat[8] 是猫如厕的时间，如果是非自动清理模式，则填充0 （以记录型的DP上报）
   // 根据item的dpId返回对应的icon
   const getIcon = (item: any) => {
@@ -91,16 +91,16 @@ const WorkRecord: React.FC = (props: IProps) => {
       if (isFault4 || isFault6) return icon.cat; // 000004:猫咪进入 000006: 猫咪靠近
       if (item.value.error !== 0) return icon.fail; // 故障
       const resetStatus = [6, 7, 8, 9, 10, 11];
-      const failStatus = [4];
+      const failStatus = [4, 8];
       if (resetStatus.includes(item.value.mode)) return icon.fail; // 复位
       if (failStatus.includes(item.value.status)) return icon.fail; // 失败
       return icon.done; // 正常
     }
     return icon.cat;
   };
-  // Data[0]:滚简模式 0-待机模式 1-手动清理 2-定时清理 3-自动清理 4-倾倒猫砂 5-平整猫砂 6--手动清理复位 7--定时清理复位 8--自动清理复位 9--倾倒猫砂复位 10-平整猫砂复位 11-其它复位(故障复位)
-  // Data[1]:滚筒状态 0-待机 1-异常暂停 2-人为暂停 3-执行中 4-停止失败 5--操作完成 6-强制执行 7-强制执行停止失败 8-强制执行完成
-  // Data[2]: 错误原因 0:正常 1:便仓未到位 2便仓已满 3上盖异常 4猫进入 5滚筒无法到位 6猫靠近 7:计划时间冲突
+  // Data[0]:滚简模式 0-待机模式 1-手动清理 2-定时清理 3-自动清理 4-倾倒猫砂 5-平整猫砂 6--手动清理复位 7--定时清理复位 8--自动清理复位 9--倾倒猫砂复位 10-平整猫砂复位 11-其它复位(故障复位) 12-猫如厕模式
+  // Data[1]:滚筒状态 0-待机、1-异常暂停、2-人为暂停、3-执行中、4-停止失败、5-操作完成、6-人为强制暂停、7-强制执行、8-强制执行停止失败、9-强制执行操作完成
+  // Data[2]: 错误原因 0:正常 1:便仓未到位 2集便仓已满 3上盖异常 4猫进入 5滚筒无法到位 6猫靠近 7：马达堵转 8：计划时间冲突
   // Dat[3]--Dat[8] 是猫如厕的时间，如果是非自动清理模式，则填充0 （以记录型的DP上报）
   // 返回描述文本：106dp文本格式：猫咪停留 xx 分 xx 秒；127dp文本格式：模式+状态+错误原因（失败情况下才携带失败原因）
   const getLabel = (item: any) => {
@@ -133,7 +133,7 @@ const WorkRecord: React.FC = (props: IProps) => {
       const resetStatus = [6, 7, 8, 9, 10, 11];
       if (resetStatus.includes(mode)) {
         modeText = String.getLang(`mode_${reset2Mode[mode]}`);
-        if ([5].includes(status)) {
+        if ([5, 9].includes(status)) {
           // 模式复位完成、，标记为模式终止
           statusText = String.getLang(`status_6`);
         }
@@ -141,11 +141,11 @@ const WorkRecord: React.FC = (props: IProps) => {
       if (mode === 11) {
         modeText = String.getLang(`mode_11`);
       }
-      if ([7].includes(status)) {
+      if ([8].includes(status)) {
         // 强制执行停止失败，标记为模式终止
         statusText = String.getLang(`status_6`);
       }
-      if ([8].includes(status)) {
+      if ([9].includes(status)) {
         // 强制执行完成，标记为操作完成
         statusText = String.getLang(`status_5`);
       }
@@ -174,9 +174,10 @@ const WorkRecord: React.FC = (props: IProps) => {
       fail: '#FA5F5F',
       done: '#44B74A',
     };
-    if (item.value.status === 4) return statusColor.fail;
-    if (item.value.status === 5) return statusColor.done;
-    if (item.value.status === 6) return statusColor.end;
+    // Data[1]:滚筒状态 0-待机、1-异常暂停、2-人为暂停、3-执行中、4-停止失败、5-操作完成、6-人为强制暂停、7-强制执行、8-强制执行停止失败、9-强制执行操作完成
+    if ([4, 8].includes(item.value.status)) return statusColor.fail;
+    if ([5, 9].includes(item.value.status)) return statusColor.done;
+    // if (item.value.status === 6) return statusColor.end;
     return statusColor.done;
   };
 
