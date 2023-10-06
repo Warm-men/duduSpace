@@ -187,12 +187,12 @@ const Setting: React.FC = props => {
       >
         <View style={commonStyles.flexRowCenter}>
           <Image source={icon} style={styles.img} />
-          <View>
-            <TYText color={commonColor.mainText} size={cx(15)} weight={500}>
+          <View style={styles.textView}>
+            <TYText style={styles.textItem} color={commonColor.mainText} size={cx(15)} weight={500}>
               {title}
             </TYText>
             {!!desc && (
-              <TYText color="#ADA49B" size={cx(12)}>
+              <TYText style={styles.textItem} color="#ADA49B" size={cx(12)}>
                 {desc}
               </TYText>
             )}
@@ -260,5 +260,11 @@ const styles = StyleSheet.create({
     marginRight: cx(16),
     width: cx(30),
     height: cx(30),
+  },
+  textView: {
+    width: cx(170),
+  },
+  textItem: {
+    width: cx(170),
   },
 });

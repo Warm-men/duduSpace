@@ -221,7 +221,7 @@ const SmartSettings: React.FC = (props: any) => {
                 activeOpacity={0.8}
               >
                 <View style={[styles.row, styles.alignItemCenter, styles.arrowView]}>
-                  <TYText style={styles.text15}>{formatMinute(delayCleanTime)}</TYText>
+                  <TYText style={styles.text15_1}>{formatMinute(delayCleanTime)}</TYText>
                   <Image source={Res.arrow_right} style={styles.arrowImage} resizeMode="stretch" />
                 </View>
               </TouchableOpacity>
@@ -256,7 +256,7 @@ const SmartSettings: React.FC = (props: any) => {
                 activeOpacity={0.8}
               >
                 <View style={[styles.row, styles.alignItemCenter, styles.arrowView]}>
-                  <TYText style={styles.text15}>
+                  <TYText style={styles.text15_1}>
                     {/* {i18n.getLang(`clean_interval_${setRepeatClearTime}`)} */}
                     {formatMinute(setRepeatClearTime)}
                   </TYText>
@@ -278,7 +278,7 @@ const SmartSettings: React.FC = (props: any) => {
               activeOpacity={0.8}
             >
               <View style={[styles.row, styles.alignItemCenter, styles.arrowView]}>
-                <TYText style={[styles.text15, { color: clearPlanSwitch ? '#43B648' : '#ADA49B' }]}>
+                <TYText style={[styles.text15_1, { color: clearPlanSwitch ? '#43B648' : '#ADA49B' }]}>
                   {clearPlanSwitch
                     ? i18n.getLang('plan_switch_on')
                     : i18n.getLang('plan_switch_off')}
@@ -338,14 +338,14 @@ const SmartSettings: React.FC = (props: any) => {
               </View>
               <TouchableOpacity onPress={showSleepPicker} activeOpacity={0.8}>
                 <View style={[styles.row, styles.alignItemCenter, styles.arrowView]}>
-                  <TYText style={styles.text15}>{sleepTimeText()}</TYText>
+                  <TYText style={styles.text15_1}>{sleepTimeText()}</TYText>
                   <Image source={Res.arrow_right} style={styles.arrowImage} resizeMode="stretch" />
                 </View>
               </TouchableOpacity>
             </View>
           ) : null}
           {/* 免打扰 */}
-          <View style={[styles.rowSpw, styles.itemView, styles.itemViewSmall]}>
+          <View style={[styles.rowSpw, styles.itemView, styles.itemViewSmall_1]}>
             <View style={[styles.justifyContentCenter, styles.flex1]}>
               <TYText style={styles.title15}>{i18n.getLang('sound_switch')}</TYText>
             </View>
@@ -379,10 +379,6 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
   },
-  center: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   rowSpw: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -397,8 +393,14 @@ const styles = StyleSheet.create({
   title15: {
     fontSize: cx(15),
     color: '#49362F',
+    width: cx(200),
   },
   text15: {
+    fontSize: cx(15),
+    color: '#ADA49B',
+    width: cx(200),
+  },
+  text15_1: {
     fontSize: cx(15),
     color: '#ADA49B',
   },
@@ -407,6 +409,7 @@ const styles = StyleSheet.create({
     color: '#ADA49B',
     lineHeight: cx(18),
     marginTop: cx(6),
+    width: cx(200),
   },
   viewBox: {
     width: cx(345),
@@ -418,11 +421,16 @@ const styles = StyleSheet.create({
     paddingBottom: cx(10),
   },
   itemView: {
-    height: cx(65.5),
+    // height: cx(65.5),
+    marginBottom: cx(14),
     alignItems: 'center',
   },
   itemViewSmall: {
-    height: cx(44),
+    // height: cx(44),
+    marginBottom: cx(24),
+    alignItems: 'center',
+  },
+  itemViewSmall_1: {
     alignItems: 'center',
   },
   arrowImage: {

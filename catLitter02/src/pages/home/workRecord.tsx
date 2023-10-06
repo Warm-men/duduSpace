@@ -130,11 +130,20 @@ const WorkRecord: React.FC = (props: IProps) => {
         9: 4,
         10: 5,
       };
+      // mode: 1~5, state: 4、8，error: x 示例：xx失败，xx故障
+      // mode: 6～11, state: 4、8, error: x 示例：xx已被终止，xx故障
       const resetStatus = [6, 7, 8, 9, 10, 11];
+      if ([4, 8].includes(status)) {
+        statusText = String.getLang(`status_4`);
+      }
       if (resetStatus.includes(mode)) {
         modeText = String.getLang(`mode_${reset2Mode[mode]}`);
         if ([5, 9].includes(status)) {
           // 模式复位完成、，标记为模式终止
+          statusText = String.getLang(`status_5`);
+        }
+        if ([4, 8].includes(status)) {
+          // 已被终止
           statusText = String.getLang(`status_6`);
         }
       }
@@ -310,6 +319,7 @@ const styles = StyleSheet.create({
     fontSize: cx(14),
     color: '#7C7269',
     marginLeft: cx(14.5),
+    width: cx(200)
   },
   circle: {
     width: cx(5),
@@ -329,7 +339,7 @@ const styles = StyleSheet.create({
   labeText: {
     fontSize: cx(13),
     color: '#ADA49B',
-    width: cx(220),
+    width: cx(200),
     lineHeight: cx(18),
   },
   line: {

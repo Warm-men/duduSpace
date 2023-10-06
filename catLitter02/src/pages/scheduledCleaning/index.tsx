@@ -194,6 +194,7 @@ const styles = StyleSheet.create({
     color: '#ADA49B',
     lineHeight: cx(18),
     marginTop: cx(6),
+    width: cx(260),
   },
   title12: {
     fontSize: cx(12),
