@@ -214,7 +214,7 @@
 		"status_6": " terminated",
 		"status_7": " motor stall",
 		"status_8": " planned time conflict",
-		"status_9": " duplicate cleaning",
+		"status_9": " enforcement completed",
 		"error_1": ", the toilet is not in place",
 		"error_2": ", the toilet is full",
 		"error_3": ", abnormal upper cover",
@@ -259,7 +259,10 @@
 		"keep_waiting": "Continue to wait",
 		"force_action_0": "Forced cleaning",
 		"force_action_1": "Forced dumping",
-		"force_action_2": "Forced leveling"
+		"force_action_2": "Forced leveling",
+		"force_mode_1_running": "Forced cleaning in progress, please wait",
+		"force_mode_4_running": "Forced dumping in progress, please wait",
+		"force_mode_5_running": "Forced leveling in progress, please wait"
 	},
 	"zh": {
 		"home_title": "猫砂盆",
@@ -476,7 +479,7 @@
 		"status_6": "已被终止",
 		"status_7": "马达堵转",
 		"status_8": "计划时间冲突",
-		"status_9": "重复清理",
+		"status_9": "强行执行已完成",
 		"error_1": "，便仓未到位",
 		"error_2": "，便仓已满",
 		"error_3": "，上盖异常",
@@ -521,6 +524,9 @@
 		"keep_waiting": "继续等待",
 		"force_action_0": "强行清理",
 		"force_action_1": "强行倾倒",
-		"force_action_2": "强行平整"
+		"force_action_2": "强行平整",
+		"force_mode_1_running": "正在强行清理中，请稍后...",
+		"force_mode_4_running": "正在强行倾倒中，请稍后...",
+		"force_mode_5_running": "正在强行平整中，请稍后..."
 	}
 }

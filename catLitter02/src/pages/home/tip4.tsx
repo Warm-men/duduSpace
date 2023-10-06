@@ -30,7 +30,7 @@ const Tip: React.FC = () => {
     );
   };
 
-  return !childLock && !autoLockEnable ? null : (
+  return !autoLockEnable ? null : (
     <TipPop
       style={{ position: 'absolute', top: cx(136), right: cx(0), width: cx(90) }}
       boxStyle={{ flexDirection: 'column' }}

@@ -202,29 +202,31 @@ const PopUp = (props: any) => {
     };
     const pauseManualText = Strings.getLang('roller_state_desc_0_2_0');
     // 执行中，可暂停
-    if (operationMode.includes(rollerMode) && ([3].includes(rollerState) && errorCode === 0 || [7].includes(rollerState))) {
+    if (operationMode.includes(rollerMode) && [3, 7].includes(rollerState)) {
+      let _text = runningText[rollerMode];
+      if (rollerState === 7) {
+        const forceModeRunning = {
+          1: Strings.getLang('force_mode_1_running'),
+          4: Strings.getLang('force_mode_4_running'),
+          5: Strings.getLang('force_mode_5_running'),
+        };
+        // 正在强制清理中，请稍后...; 正在强制倾倒中，请稍后...；正在强制平整中，请稍后;
+        _text = forceModeRunning[rollerMode];
+      }
       return {
         button: Buttons.onlyPause,
-        text: runningText[rollerMode],
+        text: _text,
       };
     }
     // 人为暂停
-    if (operationMode.includes(rollerMode) && rollerState === 2 && errorCode === 0) {
+    if (operationMode.includes(rollerMode) && rollerState === 2) {
       return {
         button: Buttons.resetPopAndContinue,
         text: pauseManualText,
       };
     }
     // 异常暂停、强制执行暂停
-    if (operationMode.includes(rollerMode) && [1, 8].includes(rollerState)) {
-      if (isFault4 || isFault6) {
-        // case1: 猫咪靠近、猫咪进入，可复位、继续
-        return {
-          button: Buttons.forceAction,
-          text: isFault4 ? pauseFault4Text[rollerMode] : pauseFault6Text[rollerMode],
-          disabled: false,
-        };
-      }
+    if (operationMode.includes(rollerMode) && [1, 6].includes(rollerState)) {
       if (isFault) {
         // case2: 其他异常，可复位、继续，异常code：1, 2, 3, 5, 7, 8, 9
         return {
@@ -233,18 +235,36 @@ const PopUp = (props: any) => {
           disabled: true,
         };
       }
+      if (isFault4 || isFault6) {
+        // case1: 猫咪靠近、猫咪进入，可复位、继续
+        return {
+          button: Buttons.forceAction,
+          text: isFault4 ? pauseFault4Text[rollerMode] : pauseFault6Text[rollerMode],
+          disabled: false,
+        };
+      }
     }
 
     const needReset = [6, 7, 8, 9, 10, 11];
     // 复位过程
-    if (needReset.includes(rollerMode) && ([3].includes(rollerState) && errorCode === 0 || [7].includes(rollerState))) {
+    if (needReset.includes(rollerMode) && [3, 7].includes(rollerState)) {
       // case1: 复位中：可暂停
+      let _text = Strings.getLang('roller_state_desc_5_3_0');
+      if (rollerState === 7) {
+        const forceModeRunning = {
+          1: Strings.getLang('force_mode_1_running'),
+          4: Strings.getLang('force_mode_4_running'),
+          5: Strings.getLang('force_mode_5_running'),
+        };
+        // 正在强制清理中，请稍后...; 正在强制倾倒中，请稍后...；正在强制平整中，请稍后;
+        _text = forceModeRunning[rollerMode];
+      }
       return {
         button: Buttons.onlyPause,
-        text: Strings.getLang('roller_state_desc_5_3_0'),
+        text: _text,
       };
     }
-    if (needReset.includes(rollerMode) && [1, 8].includes(rollerState)) {
+    if (needReset.includes(rollerMode) && [1, 6].includes(rollerState)) {
       // case2: 异常故障暂停，禁用按键
       return {
         button: Buttons.onlyContinue,
@@ -252,7 +272,7 @@ const PopUp = (props: any) => {
         disabled: true,
       };
     }
-    if (needReset.includes(rollerMode) && rollerState === 2 && errorCode === 0) {
+    if (needReset.includes(rollerMode) && rollerState === 2) {
       // case2: 复位已暂停：可继续
       return {
         button: Buttons.onlyContinue,

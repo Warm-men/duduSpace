@@ -11,7 +11,9 @@ import { useSelector } from 'react-redux';
 const { childLockCode, autoLockEnableCode } = dpCodes;
 
 const Setting: React.FC = props => {
-  const { [childLockCode]: childLock } = useSelector(({ dpState }: any) => dpState);
+  const { [childLockCode]: childLock, [autoLockEnableCode]: autoLockEnable } = useSelector(
+    ({ dpState }: any) => dpState
+  );
 
   const navigation = useNavigation();
 
@@ -146,7 +148,7 @@ const Setting: React.FC = props => {
       icon: Res.setting_icon_lock,
       title: i18n.getLang('child_lock'),
       desc: i18n.getLang('child_lock_tip'),
-      value: childLock,
+      value: autoLockEnable,
       onPress: value => {
         TYSdk.device.putDeviceData({ [childLockCode]: value });
         // 不延迟就会漏发   导致设置页与首页的状态不一致 FIXME: 设备缺陷

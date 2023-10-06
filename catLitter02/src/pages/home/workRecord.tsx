@@ -147,7 +147,7 @@ const WorkRecord: React.FC = (props: IProps) => {
       }
       if ([9].includes(status)) {
         // 强制执行完成，标记为操作完成
-        statusText = String.getLang(`status_5`);
+        statusText = String.getLang(`status_9`);
       }
 
       const faultList = getErrorBitmap2FaultList(error);
