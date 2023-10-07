@@ -124,6 +124,9 @@
 		"dp_fault_4": "Cat Entry",
 		"dp_fault_5": "The drum cannot be in place",
 		"dp_fault_6": "Cat approaching",
+		"dp_fault_6_1": "The cat is near the middle of the door",
+		"dp_fault_6_2": "The cat approaches the threshold",
+		"dp_fault_6_8": "The cat approaches the rear",
 		"dp_fault_7": "Motor stall",
 		"dp_fault_8": "Planned time conflict",
 		"pause": "Pause",
@@ -262,7 +265,17 @@
 		"force_action_2": "Forced leveling",
 		"force_mode_1_running": "Forced cleaning in progress, please wait",
 		"force_mode_4_running": "Forced dumping in progress, please wait",
-		"force_mode_5_running": "Forced leveling in progress, please wait"
+		"force_mode_5_running": "Forced leveling in progress, please wait",
+		"forced_fail_1": "Forced manual cleaning failed",
+		"forced_fail_2": "Forced scheduled cleaning failed",
+		"forced_fail_3": "Forced automatic cleaning failed",
+		"forced_fail_4": "Forced dumping of cat litter failed",
+		"forced_fail_5": "Forced leveling of cat litter failed",
+		"forced_done_1": "Forced manual cleaning completed",
+		"forced_done_2": "Forced scheduled cleaning completed",
+		"forced_done_3": "Forced automatic cleaning completed",
+		"forced_done_4": "The forced dumping of cat litter has been completed",
+		"forced_done_5": "The forced leveling of the cat litter has been completed"
 	},
 	"zh": {
 		"home_title": "猫砂盆",
@@ -389,6 +402,9 @@
 		"dp_fault_4": "猫咪进入",
 		"dp_fault_5": "滚筒无法到位",
 		"dp_fault_6": "猫咪靠近",
+		"dp_fault_6_1": "猫靠近门中间",
+		"dp_fault_6_2": "猫靠近门槛",
+		"dp_fault_6_8": "猫靠近后方",
 		"dp_fault_7": "马达堵转",
 		"dp_fault_8": "计划时间冲突",
 		"pause": "暂停",
@@ -527,6 +543,16 @@
 		"force_action_2": "强行平整",
 		"force_mode_1_running": "正在强行清理中，请稍后...",
 		"force_mode_4_running": "正在强行倾倒中，请稍后...",
-		"force_mode_5_running": "正在强行平整中，请稍后..."
+		"force_mode_5_running": "正在强行平整中，请稍后...",
+		"forced_fail_1": "强行手动清理失败",
+		"forced_fail_2": "强行定时清理失败",
+		"forced_fail_3": "强行自动清理失败",
+		"forced_fail_4": "强行倾倒猫砂失败",
+		"forced_fail_5": "强行平整猫砂失败",
+		"forced_done_1": "强行手动清理已完成",
+		"forced_done_2": "强行定时清理已完成",
+		"forced_done_3": "强行自动清理已完成",
+		"forced_done_4": "强行倾倒猫砂已完成",
+		"forced_done_5": "强行平整猫砂已完成"
 	}
 }

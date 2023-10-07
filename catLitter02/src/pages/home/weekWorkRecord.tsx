@@ -208,52 +208,119 @@ const WeekWorkRecord: React.FC = (props: IProps) => {
         // 4:猫咪进入 6: 猫咪靠近
         return item.value.error === 4 ? String.getLang('cat_enter') : String.getLang('cat_near');
       }
-      // 复位模式对应的值
-      const { mode, status, error } = item.value;
-      let modeText = String.getLang(`mode_${mode}`);
-      let statusText = String.getLang(`status_${status}`);
-      const reset2Mode = {
-        6: 1,
-        7: 2,
-        8: 3,
-        9: 4,
-        10: 5,
-      };
-      // mode: 1~5, state: 4、8，error: x 示例：xx失败，xx故障
-      // mode: 6～11, state: 4、8, error: x 示例：xx已被终止，xx故障
       const resetStatus = [6, 7, 8, 9, 10, 11];
-      if ([4, 8].includes(status)) {
-        statusText = String.getLang(`status_4`);
-      }
-      if (resetStatus.includes(mode)) {
-        modeText = String.getLang(`mode_${reset2Mode[mode]}`);
-        if ([5, 9].includes(status)) {
-          // 模式复位完成、，标记为模式终止
-          statusText = String.getLang(`status_5`);
-        }
-        if ([4, 8].includes(status)) {
-          // 已被终止
-          statusText = String.getLang(`status_6`);
-        }
-      }
-      if (mode === 11) {
-        modeText = String.getLang(`mode_11`);
-      }
-      if ([8].includes(status)) {
-        // 强制执行停止失败，标记为模式终止
-        statusText = String.getLang(`status_6`);
-      }
-      if ([9].includes(status)) {
-        // 强制执行完成，标记为操作完成
-        statusText = String.getLang(`status_9`);
-      }
+      const { mode } = item.value;
 
-      const faultList = getErrorBitmap2FaultList(error);
-      const faultIndex = faultList.length > 0 ? faultList[0] : 1;
-      const errorText = error !== 0 ? String.getLang(`error_${faultIndex}`) : '';
-      return modeText + statusText + errorText;
+      if (resetStatus.includes(mode)) {
+        return getRestLabel(item);
+      }
+      return getGeneralLabel(item);
     }
     return '';
+  };
+
+  const getGeneralLabel = item => {
+    // 模式：1～5
+    // 状态：5
+    // 等于：xx已完成
+
+    // 模式：1～5
+    // 状态：9
+    // 故障：xxx
+    // 等于：强行xx已完成，xx故障
+
+    // 模式：1～5
+    // 状态：4
+    // 故障：xxx
+    // 等于：模式失败，xxx
+
+    // 模式：1～5
+    // 状态：8
+    // 故障：xxx
+    // 等于：强行XX模式失败，xxx
+    const { mode, status, error } = item.value;
+
+    const modeText = String.getLang(`mode_${mode}`);
+    let statusText = String.getLang(`status_${status}`);
+
+    const faultList = getErrorBitmap2FaultList(error);
+    const faultIndex = faultList.length > 0 ? faultList[0] : 1;
+    const errorText = error !== 0 ? String.getLang(`error_${faultIndex}`) : '';
+
+    if ([5].includes(status)) {
+      statusText = String.getLang(`status_5`);
+    }
+    if ([4].includes(status)) {
+      statusText = String.getLang(`status_4`);
+    }
+    if ([8, 9].includes(status)) {
+      let forced = '';
+
+      if (status === 8) {
+        const textList = {
+          1: String.getLang('forced_fail_1'),
+          2: String.getLang('forced_fail_2'),
+          3: String.getLang('forced_fail_3'),
+          4: String.getLang('forced_fail_4'),
+          5: String.getLang('forced_fail_5'),
+        };
+        forced = textList[mode];
+      }
+
+      if (status === 9) {
+        const textList = {
+          1: String.getLang('forced_done_1'),
+          2: String.getLang('forced_done_2'),
+          3: String.getLang('forced_done_3'),
+          4: String.getLang('forced_done_4'),
+          5: String.getLang('forced_done_5'),
+        };
+        forced = textList[mode];
+      }
+      return forced + errorText;
+    }
+
+    return modeText + statusText + errorText;
+  };
+
+  const getRestLabel = item => {
+    // 模式：6～11
+    // 状态：4、8
+    // 故障：xxx
+    // 等于：模式失败，xxx
+
+    // 模式：6～11
+    // 状态：5、9
+    // 故障：xxx
+    // 等于：模式已被终止，xxx
+
+    const { mode, status, error } = item.value;
+    let modeText = String.getLang(`mode_${mode}`);
+    let statusText = String.getLang(`status_${status}`);
+    const reset2Mode = {
+      6: 1,
+      7: 2,
+      8: 3,
+      9: 4,
+      10: 5,
+      11: 11,
+    };
+
+    modeText = String.getLang(`mode_${reset2Mode[mode]}`);
+
+    if ([4, 8].includes(status)) {
+      statusText = String.getLang(`status_4`);
+    }
+
+    if ([5, 9].includes(status)) {
+      // 模式复位完成、，标记为模式终止
+      statusText = String.getLang(`status_6`);
+    }
+    const faultList = getErrorBitmap2FaultList(error);
+    const faultIndex = faultList.length > 0 ? faultList[0] : 1;
+    const errorText = error !== 0 ? String.getLang(`error_${faultIndex}`) : '';
+
+    return modeText + statusText + errorText;
   };
 
   const getErrorBitmap2FaultList = (errorCode: number) => {

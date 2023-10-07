@@ -26,6 +26,7 @@ const {
   uploadRollerStateCode,
   sleepSwitchCode,
   setSleepPlanCode,
+  pirIndexCode,
 } = dpCodes;
 const { convertX: cx, isIphoneX } = Utils.RatioUtils;
 const Home: React.FC = () => {
@@ -34,6 +35,7 @@ const Home: React.FC = () => {
     [uploadRollerStateCode]: uploadRollerState,
     [sleepSwitchCode]: sleepSwitch,
     [setSleepPlanCode]: setSleepPlan,
+    [pirIndexCode]: pirIndex,
   } = useSelector(({ dpState }: any) => dpState);
 
   const { deviceOnline } = useSelector(({ devInfo }: any) => devInfo);
@@ -249,6 +251,17 @@ const Home: React.FC = () => {
     };
   };
 
+  const getCatCloseText = faultValue => {
+    if (faultValue !== 6) return String.getDpLang(faultCode, faultValue);
+    // 猫靠近时，需要加上pir_index dp进行位置判断
+    if (typeof pirIndex !== 'number') return String.getDpLang(faultCode, faultValue);
+    if ([1, 2, 8].includes(pirIndex)) {
+      const textKey = `dp_fault_6_${pirIndex}`;
+      return String.getLang(textKey);
+    }
+    return String.getDpLang(faultCode, faultValue);
+  };
+
   const renderItem = ({ item }) => {
     const disabled = !faultNeedPressList.includes(item) || !deviceOnline;
     return (
@@ -256,7 +269,7 @@ const Home: React.FC = () => {
         <TouchableOpacity disabled={disabled} onPress={() => handleFaultPress(item)}>
           <Image source={Res.fault} style={styles.bannerIcon} resizeMode="stretch" />
         </TouchableOpacity>
-        <TYText style={styles.title13}>{String.getDpLang(faultCode, item)}</TYText>
+        <TYText style={styles.title13}>{getCatCloseText(item)}</TYText>
       </View>
     );
   };
@@ -340,7 +353,7 @@ const Home: React.FC = () => {
               >
                 <Image source={Res.fault} style={styles.bannerIcon} resizeMode="stretch" />
               </TouchableOpacity>
-              <TYText style={styles.title13}>{String.getDpLang(faultCode, faultArr[0])}</TYText>
+              <TYText style={styles.title13}>{getCatCloseText(faultArr[0])}</TYText>
             </View>
           ) : null}
         </View>

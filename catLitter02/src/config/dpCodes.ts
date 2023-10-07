@@ -18,4 +18,5 @@ export default {
   attachedActionCode: 'attached_action',
   autoLockEnableCode: 'auto_lock_enable',
   coerceExeCode: 'coerce_exe',
+  pirIndexCode: 'pir_index',
 };

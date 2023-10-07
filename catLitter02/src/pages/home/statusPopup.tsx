@@ -28,6 +28,7 @@ const PopUp = (props: any) => {
   const [isVisiblePop, setIsVisiblePop] = useState(false);
   const [isVisibleModal, setIsVisibleModal] = useState(false);
   const [showForceAction, setShowForceAction] = useState(false);
+  const [isForceAction, setIsForceAction] = useState(false);
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -143,6 +144,7 @@ const PopUp = (props: any) => {
         color: '#ADA49B',
         onPress: () => {
           // 手动暂停-复位-二次弹窗
+          setIsForceAction(true); // 此时复位需要下发强制执行dp，故标记该弹窗
           setIsVisibleModal(true);
         },
       },
@@ -368,6 +370,7 @@ const PopUp = (props: any) => {
                 activeOpacity={0.8}
                 onPress={() => {
                   setIsVisibleModal(false);
+                  setIsForceAction(false);
                 }}
               >
                 <TYText style={[styles.modalButtonText]}>{Strings.getLang('cancel')}</TYText>
@@ -378,7 +381,12 @@ const PopUp = (props: any) => {
                   style={[styles.modalButtonView, { backgroundColor: 'url(#grad)' }]}
                   activeOpacity={0.8}
                   onPress={() => {
-                    handleDpPutData(rollerStateCode, 'cancel_rotation');
+                    if (isForceAction) {
+                      handleDpPutData(coerceExeCode, 'cancel_reset');
+                    } else {
+                      handleDpPutData(rollerStateCode, 'cancel_rotation');
+                    }
+                    setIsForceAction(false);
                     setIsVisibleModal(false);
                   }}
                 >
@@ -427,7 +435,8 @@ const styles = StyleSheet.create({
     fontSize: cx(17),
     color: '#49362F',
     lineHeight: cx(25),
-    width: cx(280)
+    width: cx(280),
+    textAlign: 'center',
   },
   buttonView: {
     width: cx(150),
