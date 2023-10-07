@@ -253,13 +253,8 @@ const PopUp = (props: any) => {
       // case1: 复位中：可暂停
       let _text = Strings.getLang('roller_state_desc_5_3_0');
       if (rollerState === 7) {
-        const forceModeRunning = {
-          6: Strings.getLang('force_mode_1_running'),
-          9: Strings.getLang('force_mode_4_running'),
-          10: Strings.getLang('force_mode_5_running'),
-        };
-        // 正在强制清理中，请稍后...; 正在强制倾倒中，请稍后...；正在强制平整中，请稍后;
-        _text = forceModeRunning[rollerMode];
+        // 正在复位...
+        _text = Strings.getLang('resetting');
       }
       return {
         button: Buttons.onlyPause,

@@ -88,9 +88,13 @@ const WorkRecord: React.FC = (props: IProps) => {
     if (item.dpId === 127) {
       const isFault4 = Utils.NumberUtils.getBitValue(item.value.error, 4) === 1;
       const isFault6 = Utils.NumberUtils.getBitValue(item.value.error, 6) === 1;
-      if (isFault4 || isFault6) return icon.cat; // 000004:猫咪进入 000006: 猫咪靠近
-      if (item.value.error !== 0) return icon.fail; // 故障
+      if ((isFault4 || isFault6) && item.value.mode === 0) return icon.cat; // 000004:猫咪进入 000006: 猫咪靠近
+      const doneStatus = [5, 9];
       const resetStatus = [6, 7, 8, 9, 10, 11];
+      if (doneStatus.includes(item.value.status) && !resetStatus.includes(item.value.mode))
+        return icon.done;
+      if (item.value.error !== 0) return icon.fail; // 故障
+
       const failStatus = [4, 8];
       if (resetStatus.includes(item.value.mode)) return icon.fail; // 复位
       if (failStatus.includes(item.value.status)) return icon.fail; // 失败

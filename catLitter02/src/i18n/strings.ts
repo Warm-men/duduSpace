@@ -302,6 +302,7 @@ export default {
     forced_done_3: 'Forced automatic cleaning completed',
     forced_done_4: 'The forced dumping of cat litter has been completed',
     forced_done_5: 'The forced leveling of the cat litter has been completed',
+    resetting: 'Resetting, please wait',
   },
   zh: {
     home_title: '猫砂盆',
@@ -590,5 +591,6 @@ export default {
     forced_done_3: '强行自动清理已完成',
     forced_done_4: '强行倾倒猫砂已完成',
     forced_done_5: '强行平整猫砂已完成',
+    resetting: '正在复位...',
   },
 };
