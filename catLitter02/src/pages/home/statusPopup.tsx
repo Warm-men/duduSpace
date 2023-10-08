@@ -64,7 +64,7 @@ const PopUp = (props: any) => {
   }, [uploadRollerState]);
 
   const getErrorBitmap2FaultList = (errorCode: number) => {
-    const errorCodeList = [1, 2, 3, 5, 7, 8, 9];
+    const errorCodeList = [1, 2, 3, 5, 6, 7, 8, 9];
     // 用errorCodeList遍历errorCode获取对应位置是否有值，有值则返回对应的faultCode
     return errorCodeList
       .map((item: number) => {
