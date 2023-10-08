@@ -41,7 +41,7 @@ const PopUp = (props: any) => {
     const { rollerMode, errorCode, rollerState } = uploadRollerStateData;
 
     // const faultList = getErrorBitmap2FaultList(errorCode);
-    const doneList = [0, 4, 5]; // 0- 待机 4-失败 5--完成
+    const doneList = [0, 5, 9]; // 0- 待机 4-失败 5--完成
 
     // const isError = faultList.length > 0;
     const isStandby = doneList.includes(rollerState);
@@ -54,7 +54,7 @@ const PopUp = (props: any) => {
       return;
     }
 
-    const needShowState = [1, 2, 3, 6, 7]; // 1-异常暂停 2-人为暂停 3-执行中 6-强制执行 7-强制执行
+    const needShowState = [1, 2, 3, 4, 6, 7, 8]; // 1-异常暂停 2-人为暂停 3-执行中 4-停止失败 6-强制执行 7-强制执行 8-强制执行停止失败
     // / const needShowMode = [1, 4, 5, 6, 7, 8, 9, 10, 11]; // 1-手动清理 4-倾倒猫砂 5-平整猫砂 6--手动清理复位 9--倾倒猫砂复位 10-平整猫砂复位 11-其它复位(故障复位)
     if (needShowState.includes(rollerState)) {
       setIsVisiblePop(true);
@@ -276,6 +276,28 @@ const PopUp = (props: any) => {
         text: Strings.getLang('roller_state_desc_5_2_0'),
       };
     }
+
+    const faultState = [4, 8];
+    // 故障显示
+    if (faultState.includes(rollerState) && faultList.length) {
+      const _text = getFaultTextInPop(faultList);
+      return {
+        button: [],
+        text: _text,
+      };
+    }
+  };
+
+  const getFaultTextInPop = (faultList: [number]) => {
+    const is1 = faultList.includes(1) || faultList.includes(2); // error: 1、2
+    const is2 = faultList.includes(3); // error: 3
+    const is3 = faultList.includes(6); // error: 6
+    const is4 = faultList.includes(5); // error: 5
+
+    if (is1) return Strings.getLang('fault_in_pop_1');
+    if (is2) return Strings.getLang('fault_in_pop_2');
+    if (is3) return Strings.getLang('fault_in_pop_3');
+    if (is4) return Strings.getLang('fault_in_pop_4');
   };
 
   const getForcePopText = () => {
@@ -321,25 +343,29 @@ const PopUp = (props: any) => {
       <View style={[styles.popupTextView, styles.flex1]}>
         <TYText style={styles.text1}>{getButtons()?.text}</TYText>
       </View>
-      <View style={styles.popupViewButtons}>
-        {getButtons()?.button.map((item: any, index: number) => {
-          const disabled = getButtons()?.disabled;
-          return (
-            <View key={item.label} style={styles.itemView}>
-              <TouchableOpacity
-                style={[styles.buttonView, { opacity: disabled ? 0.5 : 1 }]}
-                activeOpacity={0.8}
-                onPress={item.onPress}
-                key={item.label}
-                disabled={disabled}
-              >
-                <TYText style={[styles.buttonText, { color: item.color }]}>{item.label}</TYText>
-              </TouchableOpacity>
-              {index === 0 && getButtons()?.button.length > 1 ? <View style={styles.line} /> : null}
-            </View>
-          );
-        })}
-      </View>
+      {getButtons()?.button.length ? (
+        <View style={styles.popupViewButtons}>
+          {getButtons()?.button.map((item: any, index: number) => {
+            const disabled = getButtons()?.disabled;
+            return (
+              <View key={item.label} style={styles.itemView}>
+                <TouchableOpacity
+                  style={[styles.buttonView, { opacity: disabled ? 0.5 : 1 }]}
+                  activeOpacity={0.8}
+                  onPress={item.onPress}
+                  key={item.label}
+                  disabled={disabled}
+                >
+                  <TYText style={[styles.buttonText, { color: item.color }]}>{item.label}</TYText>
+                </TouchableOpacity>
+                {index === 0 && getButtons()?.button.length > 1 ? (
+                  <View style={styles.line} />
+                ) : null}
+              </View>
+            );
+          })}
+        </View>
+      ) : null}
       <TipModal
         isVisibleModal={showForceAction}
         title={getForcePopText().title}
