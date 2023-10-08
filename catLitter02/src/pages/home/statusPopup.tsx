@@ -264,12 +264,22 @@ const PopUp = (props: any) => {
       };
     }
     if (needReset.includes(rollerMode) && [1, 6].includes(rollerState)) {
-      // case2: 异常故障暂停，禁用按键
-      return {
-        button: Buttons.onlyContinue,
-        text: Strings.getLang('roller_state_desc_11_1_0'),
-        disabled: true,
-      };
+      if (isFault && !isFault6 && !isFault4) {
+        // case2: 异常故障暂停，禁用按键
+        return {
+          button: Buttons.onlyContinue,
+          text: Strings.getLang('roller_state_desc_11_1_0'),
+          disabled: true,
+        };
+      }
+      if (isFault4 || isFault6) {
+        // case1: 猫咪靠近、猫咪进入，可复位、继续
+        return {
+          button: Buttons.forceAction,
+          text: isFault4 ? Strings.getLang('reset_stop_4') : Strings.getLang('reset_stop_6'),
+          disabled: false,
+        };
+      }
     }
     if (needReset.includes(rollerMode) && rollerState === 2) {
       // case2: 复位已暂停：可继续

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Utils, TYText } from 'tuya-panel-kit';
 import moment from 'moment';
 import { useSelector, useDispatch } from 'react-redux';
@@ -120,7 +120,12 @@ const Tip: React.FC = () => {
   const renderPopTip = () => {
     // 未设置干燥剂提醒
     if (!dryAgentSwitch)
-      return <TYText style={styles.text1}>{String.getLang('go_setting_filter')}</TYText>;
+      return (
+        <TYText style={styles.text1}>
+          {String.getLang('go_setting_filter_0')}
+          <TYText style={styles.text3}>{String.getLang('go_setting_filter_1')}</TYText>
+        </TYText>
+      );
 
     const [hour, _s, minute] = dryAgentHourAndMinute;
     // 用cleanReminderTime的记录的这一天，得出离今天过去了多少天
@@ -201,6 +206,11 @@ const styles = StyleSheet.create({
   text2: {
     fontSize: cx(12),
     color: '#44B74A',
+    lineHeight: cx(16),
+  },
+  text3: {
+    fontSize: cx(12),
+    color: '#FA5F5F',
     lineHeight: cx(16),
   },
 });

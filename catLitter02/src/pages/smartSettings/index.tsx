@@ -194,14 +194,10 @@ const SmartSettings: React.FC = (props: any) => {
             <SwitchButton
               size={size}
               onValueChange={value => {
-                if (value && clearPlanSwitch) {
-                  TYSdk.device.putDeviceData({
-                    [autoCleanCode]: value,
-                    [clearPlanSwitchCode]: false,
-                  });
-                  return;
-                }
                 TYSdk.device.putDeviceData({ [autoCleanCode]: value });
+                setTimeout(() => {
+                  TYSdk.device.putDeviceData({ [clearPlanSwitchCode]: false });
+                }, 600);
               }}
               value={autoClean}
               onTintColor="#DFA663"
@@ -278,7 +274,9 @@ const SmartSettings: React.FC = (props: any) => {
               activeOpacity={0.8}
             >
               <View style={[styles.row, styles.alignItemCenter, styles.arrowView]}>
-                <TYText style={[styles.text15_1, { color: clearPlanSwitch ? '#43B648' : '#ADA49B' }]}>
+                <TYText
+                  style={[styles.text15_1, { color: clearPlanSwitch ? '#43B648' : '#ADA49B' }]}
+                >
                   {clearPlanSwitch
                     ? i18n.getLang('plan_switch_on')
                     : i18n.getLang('plan_switch_off')}

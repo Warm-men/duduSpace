@@ -311,6 +311,10 @@ export default {
       'The protection mechanism is triggered. Please check the rear sensor/threshold sensor/door middle sensor in a timely manner. During this period, it supports emergency operation of physical buttons and needs to be reset before use.',
     fault_in_pop_4:
       'The protection mechanism is triggered. Please check the position of the drum in a timely manner. During this period, emergency operation of physical buttons is supported, and reset before use.',
+    reset_stop_6: 'Cat approaching, reset paused',
+    reset_stop_4: 'Cat entered, reset paused',
+    go_setting_filter_0: 'Deodorization block: ',
+    go_setting_filter_1: 'Go to Settings',
   },
   zh: {
     home_title: '猫砂盆',
@@ -605,5 +609,9 @@ export default {
     fault_in_pop_3:
       '保护机制触发，请及时检查后方感应器/门槛感应器/门中间感应器，期间支持实体按键紧急操作，使用前要先复位。',
     fault_in_pop_4: '保护机制触发，请及时检查滚筒位置，期间支持实体按键紧急操作，使用前要先复位。',
+    reset_stop_6: '猫咪靠近，复位已暂停',
+    reset_stop_4: '猫咪进入，复位已暂停',
+    go_setting_filter_0: '除臭块: ',
+    go_setting_filter_1: '前往设置',
   },
 };

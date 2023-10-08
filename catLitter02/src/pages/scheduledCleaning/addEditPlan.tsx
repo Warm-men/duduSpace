@@ -76,6 +76,7 @@ const AddEditPlan: React.FC<Props> = props => {
       footerWrapperStyle: { height: 0 },
       cancelText: '',
       confirmText: '',
+      title: '',
       cancelTextStyle: { height: 0 },
       confirmTextStyle: { height: 0 },
       footer: <View />,
