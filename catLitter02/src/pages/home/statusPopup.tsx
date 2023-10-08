@@ -209,6 +209,8 @@ const PopUp = (props: any) => {
       if (rollerState === 7) {
         const forceModeRunning = {
           1: Strings.getLang('force_mode_1_running'),
+          2: Strings.getLang('force_mode_1_running'),
+          3: Strings.getLang('force_mode_1_running'),
           4: Strings.getLang('force_mode_4_running'),
           5: Strings.getLang('force_mode_5_running'),
         };
