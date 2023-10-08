@@ -231,7 +231,7 @@ const PopUp = (props: any) => {
     }
     // 异常暂停、强制执行暂停
     if (operationMode.includes(rollerMode) && [1, 6].includes(rollerState)) {
-      if (isFault) {
+      if (isFault && !isFault6 && !isFault4) {
         // case2: 其他异常，可复位、继续，异常code：1, 2, 3, 5, 7, 8, 9
         return {
           button: Buttons.resetPopAndContinue,
