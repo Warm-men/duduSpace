@@ -288,7 +288,9 @@ const PopUp = (props: any) => {
     const faultState = [4, 8];
     // 故障显示
     if (faultState.includes(rollerState) && (faultList.length || isFault6)) {
-      const _text = getFaultTextInPop(faultList);
+      const _faultList =
+        isFault6 && faultList.length ? [...faultList, 6] : isFault6 ? [6] : faultList;
+      const _text = getFaultTextInPop(_faultList);
       return {
         button: [],
         text: _text,
@@ -316,18 +318,25 @@ const PopUp = (props: any) => {
     const uploadRollerStateData = getUploadRollerState(uploadRollerState);
     const { rollerMode } = uploadRollerStateData || {};
     let index = 0;
+    let actionIndex = 0;
     if ([1, 6].includes(rollerMode)) {
       index = 0;
+      actionIndex = 0;
     }
     if ([4, 9].includes(rollerMode)) {
       index = 1;
+      actionIndex = 1;
     }
     if ([5, 10].includes(rollerMode)) {
       index = 2;
+      actionIndex = 2;
+    }
+    if ([6, 9, 10].includes(rollerMode)) {
+      actionIndex = 3;
     }
     return {
       title: Strings.getLang(`force_action_title_${index}`),
-      confirmText: Strings.getLang(`force_action_${index}`),
+      confirmText: Strings.getLang(`force_action_${actionIndex}`),
     };
   };
 

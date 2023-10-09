@@ -248,8 +248,15 @@ const WeekWorkRecord: React.FC = (props: IProps) => {
     let statusText = String.getLang(`status_${status}`);
 
     const faultList = getErrorBitmap2FaultList(error);
-    const faultIndex = faultList.length > 0 ? faultList[0] : 1;
-    const errorText = error !== 0 ? String.getLang(`error_${faultIndex}`) : '';
+    // const faultIndex = faultList.length > 0 ? faultList[0] : 1;
+    // 将faultList的故障连接成字符串
+    const errorListText = faultList
+      .map(item => {
+        return item ? String.getLang(`error_${item}`) : '';
+      })
+      .filter(item => item)
+      .join('、');
+    const errorText = error !== 0 ? errorListText : '';
 
     if ([5].includes(status)) {
       statusText = String.getLang(`status_5`);
@@ -321,8 +328,15 @@ const WeekWorkRecord: React.FC = (props: IProps) => {
       statusText = String.getLang(`status_6`);
     }
     const faultList = getErrorBitmap2FaultList(error);
-    const faultIndex = faultList.length > 0 ? faultList[0] : 1;
-    const errorText = error !== 0 ? String.getLang(`error_${faultIndex}`) : '';
+    // const faultIndex = faultList.length > 0 ? faultList[0] : 1;
+    // 将faultList的故障连接成字符串
+    const errorListText = faultList
+      .map(item => {
+        return item ? String.getLang(`error_${item}`) : '';
+      })
+      .filter(item => item)
+      .join('、');
+    const errorText = error !== 0 ? errorListText : '';
 
     return modeText + statusText + errorText;
   };

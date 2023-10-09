@@ -152,6 +152,23 @@ const Home: React.FC = () => {
       },
     });
   };
+  const isFault2 = faultArr.includes(2);
+
+  const showFault2Modal = () => {
+    Notification.show({
+      message: String.getLang('fall'),
+      onClose: () => {
+        Notification.hide();
+      },
+      enableClose: false,
+      autoCloseTime: 2000,
+      theme: {
+        successIcon: 'red',
+        errorIcon: 'yellow',
+        warningIcon: 'black',
+      },
+    });
+  };
 
   const tabData = [
     {
@@ -160,9 +177,7 @@ const Home: React.FC = () => {
       icon: Res.home_tab_clean,
       onPress: () => {
         if (!deviceOnline) return;
-        // if (isSleep) {
-        //   return setShowTipModal(true);
-        // }
+        if (isFault2) return showFault2Modal();
         if (isMotorStall) {
           return showFaultModal();
         }
@@ -176,9 +191,7 @@ const Home: React.FC = () => {
       icon: Res.home_tab_outwell,
       onPress: () => {
         if (!deviceOnline) return;
-        // if (isSleep) {
-        //   return setShowTipModal(true);
-        // }
+        if (isFault2) return showFault2Modal();
         if (isMotorStall) {
           return showFaultModal();
         }
@@ -192,9 +205,7 @@ const Home: React.FC = () => {
       icon: Res.home_tab_smooth,
       onPress: () => {
         if (!deviceOnline) return;
-        // if (isSleep) {
-        //   return setShowTipModal(true);
-        // }
+        if (isFault2) return showFault2Modal();
         if (isMotorStall) {
           return showFaultModal();
         }

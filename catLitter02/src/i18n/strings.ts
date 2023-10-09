@@ -46,7 +46,7 @@ export default {
     cat_litter_type_2: 'mixed sand',
     cat_litter_type_tip_title: 'Tips',
     cat_litter_type_tip_1:
-      "*To avoid unclean cleaning and excessive consumption of cat litter, it is recommended to use cat litter with strong agglomeration and small particles. Attention: Large particle cat litter with a length exceeding 2cm and a diameter exceeding 3mm will not be filtered by the filter. Unfiltered cat litter will slide into the toilet box. It is recommended to use it with Xiaopei Smart Cat Toilet's dedicated cat litter to improve cleaning efficiency.",
+      '*To avoid unclean cleaning and excessive consumption of cat litter, it is recommended to use cat litter with strong agglomeration and small particles. Attention: Large particle cat litter with a length exceeding 2cm and a diameter exceeding 3mm will not be filtered by the filter. Unfiltered cat litter will slide into the toilet box. It is recommended to use it with Xiaopei Smart Cat Toilet\'s dedicated cat litter to improve cleaning efficiency.',
     cat_litter_type: 'Cat litter type',
     cleaning_reminder: 'Sand bin cleaning reminder',
     reminder_deodorizer_block: 'Reminder for replacing the deodorizer block',
@@ -226,6 +226,7 @@ export default {
     mode_10: 'Flat cat litter reset',
     mode_11: 'Fault reset',
     mode_12: 'Cat toileting',
+    mode_13: 'Drum mode',
     status_0: ' standby',
     status_1: ' abnormal pause',
     status_2: ' artificial suspension',
@@ -263,7 +264,7 @@ export default {
     equipment_failure_restart: 'fault cleared within 10 minutes, continuing with ',
     same_time: 'Cannot set the same time',
     do_not_disturb_sub_title:
-      "{0}~{1} is the device's undisturbed time period. If you need the device to work, please turn off the undisturbed mode.",
+      '{0}~{1} is the device\'s undisturbed time period. If you need the device to work, please turn off the undisturbed mode.',
     got_it: 'Got it',
     fault_motor_stall:
       'Protection mechanism triggered, device paused, please check and reposition the sand bin',
@@ -289,6 +290,7 @@ export default {
     force_action_0: 'Forced cleaning',
     force_action_1: 'Forced dumping',
     force_action_2: 'Forced leveling',
+    force_action_3: 'Forced reset',
     force_mode_1_running: 'Forced cleaning in progress, please wait',
     force_mode_4_running: 'Forced dumping in progress, please wait',
     force_mode_5_running: 'Forced leveling in progress, please wait',
@@ -315,6 +317,7 @@ export default {
     reset_stop_4: 'Cat entered, reset paused',
     go_setting_filter_0: 'Deodorization block: ',
     go_setting_filter_1: 'Go to Settings',
+    fall: 'The collection bin is full, please handle it promptly',
   },
   zh: {
     home_title: '猫砂盆',
@@ -532,6 +535,7 @@ export default {
     mode_10: '平整猫砂复位',
     mode_11: '故障复位',
     mode_12: '猫如厕',
+    mode_13: '滚筒模式',
     status_0: '待机',
     status_1: '异常暂停',
     status_2: '人为暂停',
@@ -590,6 +594,7 @@ export default {
     force_action_0: '强行清理',
     force_action_1: '强行倾倒',
     force_action_2: '强行平整',
+    force_action_3: '强行复位',
     force_mode_1_running: '正在强行清理中，请稍后...',
     force_mode_4_running: '正在强行倾倒中，请稍后...',
     force_mode_5_running: '正在强行平整中，请稍后...',
@@ -613,5 +618,6 @@ export default {
     reset_stop_4: '猫咪进入，复位已暂停',
     go_setting_filter_0: '除臭块: ',
     go_setting_filter_1: '前往设置',
+    fall: '集便仓已满，请及时处理',
   },
 };
