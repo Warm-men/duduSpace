@@ -38,12 +38,10 @@ const PopUp = (props: any) => {
     // Data[0]:滚简模式 0-待机模式 1-手动清理 2-定时清理 3-自动清理 4-倾倒猫砂 5-平整猫砂 6--手动清理复位 7--定时清理复位 8--自动清理复位 9--倾倒猫砂复位 10-平整猫砂复位 11-其它复位(故障复位)
     // Data[1]:滚筒状态 0-待机、1-异常暂停、2-人为暂停、3-执行中、4-停止失败、5-操作完成、6-人为强制暂停、7-强制执行、8-强制执行停止失败、9-强制执行操作完成
     // Data[2]: 错误原因 0:正常 1:便仓未到位 2集便仓已满 3上盖异常 4猫进入 5滚筒无法到位 6猫靠近 7：马达堵转 8：计划时间冲突
-    const { rollerMode, errorCode, rollerState } = uploadRollerStateData;
+    const { rollerMode, rollerState } = uploadRollerStateData;
 
-    // const faultList = getErrorBitmap2FaultList(errorCode);
     const doneList = [0, 5, 9]; // 0- 待机 4-失败 5--完成
 
-    // const isError = faultList.length > 0;
     const isStandby = doneList.includes(rollerState);
     if (isStandby || rollerMode === 0) {
       // 设备异常情况，弹窗消失，Data[2]: 1：便仓未到位 2：便仓已满 3：上盖异常 5：滚筒无法到位 （显示）
@@ -55,7 +53,6 @@ const PopUp = (props: any) => {
     }
 
     const needShowState = [1, 2, 3, 4, 6, 7, 8]; // 1-异常暂停 2-人为暂停 3-执行中 4-停止失败 6-强制执行 7-强制执行 8-强制执行停止失败
-    // / const needShowMode = [1, 4, 5, 6, 7, 8, 9, 10, 11]; // 1-手动清理 4-倾倒猫砂 5-平整猫砂 6--手动清理复位 9--倾倒猫砂复位 10-平整猫砂复位 11-其它复位(故障复位)
     if (needShowState.includes(rollerState)) {
       setIsVisiblePop(true);
       return;
@@ -64,7 +61,7 @@ const PopUp = (props: any) => {
   }, [uploadRollerState]);
 
   const getErrorBitmap2FaultList = (errorCode: number) => {
-    const errorCodeList = [1, 2, 3, 5, 6, 7, 8, 9];
+    const errorCodeList = [1, 2, 3, 5, 7, 8, 9];
     // 用errorCodeList遍历errorCode获取对应位置是否有值，有值则返回对应的faultCode
     return errorCodeList
       .map((item: number) => {
@@ -169,7 +166,6 @@ const PopUp = (props: any) => {
     const isFault6 = Utils.NumberUtils.getBitValue(errorCode, 6) === 1;
 
     const faultList = getErrorBitmap2FaultList(errorCode); // 1, 2, 3, 5, 7, 8, 9
-    // const faultList22 = getErrorBitmap2FaultList(fault); // 1, 2, 3, 5, 7, 8, 9
 
     const isFault = faultList.length > 0;
     // 设备故障，xxx已暂停，10分钟内故障清除，继续执行xxx
@@ -231,7 +227,7 @@ const PopUp = (props: any) => {
     }
     // 异常暂停、强制执行暂停
     if (operationMode.includes(rollerMode) && [1, 6].includes(rollerState)) {
-      if (isFault && !isFault6 && !isFault4) {
+      if (isFault) {
         // case2: 其他异常，可复位、继续，异常code：1, 2, 3, 5, 7, 8, 9
         return {
           button: Buttons.resetPopAndContinue,
@@ -264,7 +260,7 @@ const PopUp = (props: any) => {
       };
     }
     if (needReset.includes(rollerMode) && [1, 6].includes(rollerState)) {
-      if (isFault && !isFault6 && !isFault4) {
+      if (isFault) {
         // case2: 异常故障暂停，禁用按键
         return {
           button: Buttons.onlyContinue,
@@ -291,7 +287,7 @@ const PopUp = (props: any) => {
 
     const faultState = [4, 8];
     // 故障显示
-    if (faultState.includes(rollerState) && faultList.length) {
+    if (faultState.includes(rollerState) && (faultList.length || isFault6)) {
       const _text = getFaultTextInPop(faultList);
       return {
         button: [],
