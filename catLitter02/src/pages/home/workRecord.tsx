@@ -24,7 +24,7 @@ const WorkRecord: React.FC = (props: IProps) => {
 
   useEffect(() => {
     mergeRecordList();
-  }, [toiletRecordList, workRecordList]);
+  }, [toiletRecordList.length, workRecordList.length]);
 
   // 平整列表时间：将toiletRecordList、workRecordList合并成一个数组，按时间排序
   const mergeRecordList = () => {
@@ -51,7 +51,18 @@ const WorkRecord: React.FC = (props: IProps) => {
       });
       if (index !== -1) {
         // 关联dp127的数据
-        list[index].extraDpValue = item;
+        const isExist =
+          list[index].extraDpValue &&
+          list[index].extraDpValue.find(i => {
+            return i.timeStr === timeStr;
+          });
+        if (isExist) return;
+        if (list[index].extraDpValue) {
+          list[index].extraDpValue.push(item);
+        } else {
+          list[index].extraDpValue = [item];
+        }
+        // list[index].extraDpValue = item;
       }
     });
 
@@ -166,7 +177,7 @@ const WorkRecord: React.FC = (props: IProps) => {
         return item ? String.getLang(`error_${item}`) : '';
       })
       .filter(item => item)
-      .join('、');
+      .join('');
     const errorText = error !== 0 ? errorListText : '';
 
     if ([5].includes(status)) {
@@ -246,7 +257,7 @@ const WorkRecord: React.FC = (props: IProps) => {
         return item ? String.getLang(`error_${item}`) : '';
       })
       .filter(item => item)
-      .join('、');
+      .join('');
     const errorText = error !== 0 ? errorListText : '';
 
     return modeText + statusText + errorText;
@@ -287,6 +298,35 @@ const WorkRecord: React.FC = (props: IProps) => {
     );
   };
 
+  const renderSubItem = (extraDpList: any) => {
+    if (!extraDpList || !extraDpList.length) return null;
+    const sunLen = extraDpList.length;
+    return (
+      <View style={styles.subView}>
+        {extraDpList.map((item: any, index: number) => {
+          const subItemStatusColor = getSubStatus(item);
+          const subTimeText = getTimeText(item.timeStr);
+          const subItemLabel = getLabel(item);
+          return (
+            <View style={styles.label1} key={index}>
+              {renderHorizontalDashView()}
+              <View style={[styles.circle, { backgroundColor: subItemStatusColor }]} />
+              <TYText style={styles.labeText}>{`${subTimeText}  ${subItemLabel}`}</TYText>
+            </View>
+          );
+        })}
+        <View style={styles.line1} />
+        <DashedLine
+          width={cx(1)}
+          height={cx(80 * sunLen)}
+          isColumn={true}
+          color="#DFDED9"
+          style={styles.columnLine}
+        />
+      </View>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <View style={[commonStyles.flexRow, commonStyles.flexBetween]}>
@@ -312,9 +352,6 @@ const WorkRecord: React.FC = (props: IProps) => {
           const timeText = getTimeText(item.timeStr);
           const icon = getIcon(item);
           const label = getLabel(item);
-          const subItemStatusColor = item.extraDpValue ? getSubStatus(item.extraDpValue) : '#fff';
-          const subTimeText = item.extraDpValue ? getTimeText(item.extraDpValue.timeStr) : '';
-          const subItemLabel = item.extraDpValue ? getLabel(item.extraDpValue) : '';
           const isLast = index === allRecordList.length - 1;
           const hasSub = item.extraDpValue;
           return (
@@ -325,21 +362,7 @@ const WorkRecord: React.FC = (props: IProps) => {
                 <TYText style={styles.itemText1}>{label}</TYText>
               </View>
               {hasSub ? (
-                <View style={styles.subView}>
-                  <View style={styles.label1}>
-                    {renderHorizontalDashView()}
-                    <View style={[styles.circle, { backgroundColor: subItemStatusColor }]} />
-                    <TYText style={styles.labeText}>{`${subTimeText}  ${subItemLabel}`}</TYText>
-                  </View>
-                  <View style={styles.line1} />
-                  <DashedLine
-                    width={cx(1)}
-                    height={item.extraDpValue ? cx(80) : cx(46)}
-                    isColumn={true}
-                    color="#DFDED9"
-                    style={styles.columnLine}
-                  />
-                </View>
+                renderSubItem(item.extraDpValue)
               ) : !isLast ? (
                 <View style={styles.subView}>
                   <View style={styles.line1} />

@@ -153,6 +153,15 @@ const PopUp = (props: any) => {
         },
       },
     ],
+    forceResetAction: [
+      {
+        label: Strings.getLang('continue'),
+        color: '#DFA663',
+        onPress: () => {
+          setShowForceAction(true);
+        },
+      },
+    ],
   };
 
   const getButtons = () => {
@@ -271,7 +280,7 @@ const PopUp = (props: any) => {
       if (isFault4 || isFault6) {
         // case1: 猫咪靠近、猫咪进入，可复位、继续
         return {
-          button: Buttons.forceAction,
+          button: Buttons.forceResetAction,
           text: isFault4 ? Strings.getLang('reset_stop_4') : Strings.getLang('reset_stop_6'),
           disabled: false,
         };
@@ -319,20 +328,21 @@ const PopUp = (props: any) => {
     const { rollerMode } = uploadRollerStateData || {};
     let index = 0;
     let actionIndex = 0;
-    if ([1, 6].includes(rollerMode)) {
+    if ([1, 2, 3].includes(rollerMode)) {
       index = 0;
       actionIndex = 0;
     }
-    if ([4, 9].includes(rollerMode)) {
+    if ([4].includes(rollerMode)) {
       index = 1;
       actionIndex = 1;
     }
-    if ([5, 10].includes(rollerMode)) {
+    if ([5].includes(rollerMode)) {
       index = 2;
       actionIndex = 2;
     }
-    if ([6, 9, 10].includes(rollerMode)) {
+    if ([6, 7, 8, 9, 10, 11].includes(rollerMode)) {
       actionIndex = 3;
+      index = 3;
     }
     return {
       title: Strings.getLang(`force_action_title_${index}`),

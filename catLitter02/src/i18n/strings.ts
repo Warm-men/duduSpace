@@ -46,7 +46,7 @@ export default {
     cat_litter_type_2: 'mixed sand',
     cat_litter_type_tip_title: 'Tips',
     cat_litter_type_tip_1:
-      '*To avoid unclean cleaning and excessive consumption of cat litter, it is recommended to use cat litter with strong agglomeration and small particles. Attention: Large particle cat litter with a length exceeding 2cm and a diameter exceeding 3mm will not be filtered by the filter. Unfiltered cat litter will slide into the toilet box. It is recommended to use it with Xiaopei Smart Cat Toilet\'s dedicated cat litter to improve cleaning efficiency.',
+      "*To avoid unclean cleaning and excessive consumption of cat litter, it is recommended to use cat litter with strong agglomeration and small particles. Attention: Large particle cat litter with a length exceeding 2cm and a diameter exceeding 3mm will not be filtered by the filter. Unfiltered cat litter will slide into the toilet box. It is recommended to use it with Xiaopei Smart Cat Toilet's dedicated cat litter to improve cleaning efficiency.",
     cat_litter_type: 'Cat litter type',
     cleaning_reminder: 'Sand bin cleaning reminder',
     reminder_deodorizer_block: 'Reminder for replacing the deodorizer block',
@@ -264,7 +264,7 @@ export default {
     equipment_failure_restart: 'fault cleared within 10 minutes, continuing with ',
     same_time: 'Cannot set the same time',
     do_not_disturb_sub_title:
-      '{0}~{1} is the device\'s undisturbed time period. If you need the device to work, please turn off the undisturbed mode.',
+      "{0}~{1} is the device's undisturbed time period. If you need the device to work, please turn off the undisturbed mode.",
     got_it: 'Got it',
     fault_motor_stall:
       'Protection mechanism triggered, device paused, please check and reposition the sand bin',
@@ -286,6 +286,8 @@ export default {
       'If you want to forcibly dump cat litter, please confirm that the cat is not near the device, otherwise continue to wait!',
     force_action_title_2:
       'If you want to forcibly level the cat litter, please confirm that the cat is not near the device, otherwise continue to wait!',
+    force_action_title_3:
+      'If you want to forcibly reset, please confirm that the cat is not near the device, otherwise continue to wait!!',
     keep_waiting: 'Continue to wait',
     force_action_0: 'Forced cleaning',
     force_action_1: 'Forced dumping',
@@ -590,6 +592,7 @@ export default {
     force_action_title_0: '若要强行清理请确认猫咪不在设备附近，否则继续等待!',
     force_action_title_1: '若要强行倾倒猫砂请确认猫咪不在设备附近，否则继续等待!',
     force_action_title_2: '若要强行平整猫砂请确认猫咪不在设备附近，否则继续等待!',
+    force_action_title_3: '若要强行复位请确认猫咪不在设备附近，否则继续等待!',
     keep_waiting: '继续等待',
     force_action_0: '强行清理',
     force_action_1: '强行倾倒',
