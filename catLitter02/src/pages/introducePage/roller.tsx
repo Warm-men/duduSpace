@@ -5,13 +5,13 @@ import { commonColor, commonStyles, cx } from '@config';
 import i18n from '@i18n';
 import Res from '@res';
 
-const UpperCover: React.FC = props => {
+const RollerInstall: React.FC = props => {
   return (
     <View style={commonStyles.flexOne}>
       <ScrollView style={commonStyles.flexOne}>
         <View style={[commonStyles.shadow, styles.container]}>
           <View style={[styles.center, styles.productBox]}>
-            <Image source={Res.upper_cover} style={styles.image} />
+            <Image source={Res.roller} style={styles.image} />
           </View>
           <View style={styles.productTipsBox}>
             <TYText
@@ -20,9 +20,10 @@ const UpperCover: React.FC = props => {
               weight={500}
               style={{ marginBottom: cx(10) }}
             >
-              {i18n.getLang('upper_cover_tips')}
+              {i18n.getLang('tips')}
             </TYText>
-            <TYText style={styles.tips}>{i18n.getLang('upper_cover_desc')}</TYText>
+            <TYText style={styles.tips}>{i18n.getLang('roller_tip_1')}</TYText>
+            <TYText style={styles.tips}>{i18n.getLang('roller_tip_2')}</TYText>
           </View>
         </View>
       </ScrollView>
@@ -30,7 +31,7 @@ const UpperCover: React.FC = props => {
   );
 };
 
-export default UpperCover;
+export default RollerInstall;
 
 const styles = StyleSheet.create({
   container: {

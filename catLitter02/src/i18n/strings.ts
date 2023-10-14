@@ -320,6 +320,11 @@ export default {
     go_setting_filter_0: 'Deodorization block: ',
     go_setting_filter_1: 'Go to Settings',
     fall: 'The collection bin is full, please handle it promptly',
+    roller_tip_1:
+      '1. It is recommended to clean the sand bin once a month to keep it clean and the cat is stool more comfortable. After opening the switch on one side of the gear during cleaning, the sand bin can be removed.',
+    roller_tip_2:
+      '2. The left and right sides of the sand bin are equipped with induction magnets, please do not damage them.',
+    roller_title: 'Roller',
   },
   zh: {
     home_title: '猫砂盆',
@@ -622,5 +627,9 @@ export default {
     go_setting_filter_0: '除臭块: ',
     go_setting_filter_1: '前往设置',
     fall: '集便仓已满，请及时处理',
+    roller_tip_1:
+      '1、建议每月清洗砂仓一次，维持砂仓整洁猫咪便便更舒畅。清洗时打开齿轮一侧的开关后，就可以取出砂仓。',
+    roller_tip_2: '2、砂仓左右2侧装有感应磁铁，请勿损坏。',
+    roller_title: '滚筒',
   },
 };

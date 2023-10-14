@@ -12,6 +12,7 @@ import Notice from './pages/setting/notice';
 import DryAgent from './pages/setting/dryAgent';
 import UpperCover from './pages/introducePage/upperCover';
 import RollerInstall from './pages/introducePage/rollerInstall';
+import Roller from './pages/introducePage/roller';
 import WarehouseStatus from './pages/warehouseStatus';
 import CleaningReminder from './pages/cleaningReminder';
 import ClearToiletReminder from './pages/clearToiletReminder';
@@ -183,6 +184,16 @@ const router: NavigationRoute[] = [
     component: RollerInstall,
     options: {
       title: String.getLang('roller_install'),
+      renderStatusBar: () => <StatusBar barStyle="default" />,
+      ...otherPage,
+      gestureEnabled: true,
+    },
+  },
+  {
+    name: 'roller',
+    component: Roller,
+    options: {
+      title: String.getLang('roller_title'),
       renderStatusBar: () => <StatusBar barStyle="default" />,
       ...otherPage,
       gestureEnabled: true,

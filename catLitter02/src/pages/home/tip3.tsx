@@ -44,7 +44,8 @@ const Tip: React.FC = () => {
       boxStyle={{ flexDirection: 'column' }}
       subTitleStyle={{ color: 'red' }}
       onPress={() => {
-        navigation.navigate('warehouseStatus');
+        if (isFault) return navigation.navigate('rollerInstall');
+        navigation.navigate('roller');
       }}
       lineStyle={{
         position: 'absolute',

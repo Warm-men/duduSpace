@@ -11,7 +11,7 @@ const RollerInstall: React.FC = props => {
       <ScrollView style={commonStyles.flexOne}>
         <View style={[commonStyles.shadow, styles.container]}>
           <View style={[styles.center, styles.productBox]}>
-            <Image source={Res.dryProduct} style={styles.image} />
+            <Image source={Res.roller} style={styles.image} />
           </View>
           <View style={styles.productTipsBox}>
             <TYText

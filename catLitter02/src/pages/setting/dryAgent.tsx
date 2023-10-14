@@ -225,7 +225,7 @@ const DryAgent: React.FC = props => {
         <View style={[commonStyles.shadow, styles.container]}>
           <View style={[styles.center, styles.productBox]}>
             {renderPopTip()}
-            <Image source={Res.dryProduct} style={{ width: cx(120), height: cx(120) }} />
+            <Image source={Res.filter} style={{ width: cx(120), height: cx(120) }} />
           </View>
           <View style={styles.productTipsBox}>
             <TYText
