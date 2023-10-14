@@ -122,9 +122,11 @@ const WorkRecord: React.FC = (props: IProps) => {
     if (item.dpId === 106) {
       const { minute = 0, second = 0 } = item.value;
       if (minute === 0) {
-        return String.formatValue('toilet_record_in_second', second);
+        const label = String.formatValue('toilet_record_in_second', second);
+        return { label, errorText: '' };
       }
-      return String.formatValue('toilet_record_in_day', minute, second);
+      const label = String.formatValue('toilet_record_in_day', minute, second);
+      return { label, errorText: '' };
     }
 
     if (item.dpId === 127) {
@@ -177,7 +179,7 @@ const WorkRecord: React.FC = (props: IProps) => {
         return item ? String.getLang(`error_${item}`) : '';
       })
       .filter(item => item)
-      .join('');
+      .join(', ');
     const errorText = error !== 0 ? errorListText : '';
 
     if ([5].includes(status)) {
@@ -210,10 +212,10 @@ const WorkRecord: React.FC = (props: IProps) => {
         };
         forced = textList[mode];
       }
-      return forced + errorText;
+      return { label: forced, errorText };
     }
 
-    return modeText + statusText + errorText;
+    return { label: modeText + statusText, errorText };
   };
 
   const getRestLabel = item => {
@@ -257,10 +259,10 @@ const WorkRecord: React.FC = (props: IProps) => {
         return item ? String.getLang(`error_${item}`) : '';
       })
       .filter(item => item)
-      .join('');
+      .join(', ');
     const errorText = error !== 0 ? errorListText : '';
 
-    return modeText + statusText + errorText;
+    return { label: modeText + statusText, errorText };
   };
 
   const getErrorBitmap2FaultList = (errorCode: number) => {
@@ -303,26 +305,32 @@ const WorkRecord: React.FC = (props: IProps) => {
     const sunLen = extraDpList.length;
     return (
       <View style={styles.subView}>
+        <DashedLine
+          width={cx(1)}
+          height={cx(48 + sunLen * 26)}
+          isColumn={true}
+          color="#DFDED9"
+          style={styles.columnLine}
+        />
         {extraDpList.map((item: any, index: number) => {
           const subItemStatusColor = getSubStatus(item);
           const subTimeText = getTimeText(item.timeStr);
           const subItemLabel = getLabel(item);
           return (
             <View style={styles.label1} key={index}>
-              {renderHorizontalDashView()}
+              <TYText style={styles.labeText1}>{subTimeText}</TYText>
               <View style={[styles.circle, { backgroundColor: subItemStatusColor }]} />
-              <TYText style={styles.labeText}>{`${subTimeText}  ${subItemLabel}`}</TYText>
+              {renderHorizontalDashView()}
+              <View>
+                <TYText style={styles.labeText}>{subItemLabel.label}</TYText>
+                {subItemLabel.errorText ? (
+                  <TYText style={styles.labeText}>{subItemLabel.errorText}</TYText>
+                ) : null}
+              </View>
             </View>
           );
         })}
         <View style={styles.line1} />
-        <DashedLine
-          width={cx(1)}
-          height={cx(80 * sunLen)}
-          isColumn={true}
-          color="#DFDED9"
-          style={styles.columnLine}
-        />
       </View>
     );
   };
@@ -351,15 +359,20 @@ const WorkRecord: React.FC = (props: IProps) => {
         {allRecordList.map((item, index) => {
           const timeText = getTimeText(item.timeStr);
           const icon = getIcon(item);
-          const label = getLabel(item);
+          const labelData = getLabel(item);
           const isLast = index === allRecordList.length - 1;
           const hasSub = item.extraDpValue;
+          const isFail = labelData.errorText;
+          const LineH1 = isFail ? cx(60) : cx(46);
           return (
             <View key={`${timeText}${index}`}>
               <View style={styles.listItemTop}>
                 <TYText style={styles.itemText}>{timeText}</TYText>
                 <Image source={icon} style={styles.icon} resizeMode="stretch" />
-                <TYText style={styles.itemText1}>{label}</TYText>
+                <View>
+                  <TYText style={styles.itemText1}>{labelData.label}</TYText>
+                  {isFail ? <TYText style={styles.itemText2}>{labelData.errorText}</TYText> : null}
+                </View>
               </View>
               {hasSub ? (
                 renderSubItem(item.extraDpValue)
@@ -368,10 +381,10 @@ const WorkRecord: React.FC = (props: IProps) => {
                   <View style={styles.line1} />
                   <DashedLine
                     width={cx(1)}
-                    height={item.extraDpValue ? cx(80) : cx(46)}
+                    height={LineH1}
                     isColumn={true}
                     color="#DFDED9"
-                    style={styles.columnLine}
+                    style={[styles.columnLine, { top: isFail ? cx(-15) : cx(0) }]}
                   />
                 </View>
               ) : null}
@@ -410,7 +423,7 @@ const styles = StyleSheet.create({
   },
   listItemTop: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     marginBottom: cx(2),
   },
   itemText: {
@@ -429,15 +442,23 @@ const styles = StyleSheet.create({
     marginLeft: cx(14.5),
     width: cx(200),
   },
+  itemText2: {
+    fontSize: cx(12),
+    color: '#ADA49B',
+    marginLeft: cx(14.5),
+    width: cx(200),
+    marginTop: cx(8),
+  },
   circle: {
     width: cx(5),
     height: cx(5),
     borderRadius: cx(2.5),
-    marginRight: cx(5),
+    marginRight: cx(2),
+    zIndex: 1,
   },
   subView: {
     marginVertical: cx(2),
-    marginLeft: cx(58),
+    marginLeft: cx(0),
   },
   label1: {
     marginTop: cx(14),
@@ -450,6 +471,14 @@ const styles = StyleSheet.create({
     width: cx(200),
     lineHeight: cx(18),
   },
+  labeText1: {
+    fontSize: cx(12),
+    color: '#ADA49B',
+    width: cx(32),
+    lineHeight: cx(18),
+    marginRight: cx(6.9),
+    marginLeft: cx(16),
+  },
   line: {
     marginHorizontal: cx(2.5),
   },
@@ -457,13 +486,13 @@ const styles = StyleSheet.create({
     width: cx(232.5),
     height: StyleSheet.hairlineWidth,
     backgroundColor: '#E5E0DF',
-    marginLeft: cx(26),
+    marginLeft: cx(84),
     marginVertical: cx(25),
   },
   columnLine: {
     position: 'absolute',
     top: 0,
-    left: 0,
+    left: cx(57),
   },
   moreIcon: {
     width: cx(20),
