@@ -92,7 +92,8 @@
 		"work_sleep_and_no_disturb": "Low power | Don't disturb",
 		"sleep_time_error": "Start time and end time cannot be the same",
 		"update_done": "Update success",
-		"set_done": "Set success"
+		"set_done": "Set success",
+		"settings_title": "Settings"
 	},
 	"zh": {
 		"amount_of_water": "水量：",
@@ -187,6 +188,7 @@
 		"work_sleep_and_no_disturb": "低功耗 | 免打扰",
 		"sleep_time_error": "开始时间与结束时间不能相同",
 		"update_done": "更新成功",
-		"set_done": "设置成功"
+		"set_done": "设置成功",
+		"settings_title": "设置"
 	}
 }

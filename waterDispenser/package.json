@@ -2,7 +2,7 @@
   "rnVersion": "5.30",
   "license": "MIT",
   "name": "1slp5",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "lint": "prettier --write '**/*.{js,jsx,ts,tsx}'",

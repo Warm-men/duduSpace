@@ -51,37 +51,16 @@ const Tip: React.FC = (props: MainProps) => {
 
   const handleGetCloud = async () => {
     // 用promise.all请求所有接口，返回后统一处理
-    const results = await Promise.all([
-      getDeviceCloudData('filterSwitch'),
-      getDeviceCloudData('filterTime'),
-      getDeviceCloudData('filterRepeat'),
-      getDeviceCloudData('filterHourAndMinute'),
-    ]);
-    const [switchRes, timeRes, repeatRes, hourAndMinuteRes] = results;
-    const _switch = !!+switchRes;
-    const _time = timeRes.time || '';
-    const _repeat = +repeatRes || 0;
-    const _hour = hourAndMinuteRes.hour || 0;
-    const _minute = hourAndMinuteRes.minute || 0;
-    if (typeof switchRes === 'string') {
-      setFilterSwitch(_switch);
+    const results = await getDeviceCloudData('filterState');
+    if (typeof results === 'object' && Object.keys(results).length > 0) {
+      const { switch: _switch_, time, repeat, hourAndMinute } = results;
+      setFilterSwitch(_switch_);
+      setFilterTime(time);
+      setFilterRepeat(repeat);
+      setFilterHourAndMinute(hourAndMinute);
+
+      dispatch(actions.common.updateCloudData({ filterState: results }));
     }
-    if (typeof timeRes === 'object' && timeRes.time) {
-      setFilterTime(_time);
-    }
-    if (typeof repeatRes === 'string') {
-      setFilterRepeat(_repeat);
-    }
-    if (typeof hourAndMinuteRes === 'object' && hourAndMinuteRes.hour) {
-      setFilterHourAndMinute([_hour, 0, _minute]);
-    }
-    const filterState = {
-      switch: _switch,
-      time: _time,
-      repeat: _repeat,
-      hourAndMinute: [_hour, 0, _minute],
-    };
-    dispatch(actions.common.updateCloudData({ filterState }));
   };
 
   const renderPopTip = () => {

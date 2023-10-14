@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Utils, TYText } from 'tuya-panel-kit';
-import { useSelector } from 'react-redux';
+import moment from 'moment';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import Res from '@res';
 import String from '@i18n';
-import { dpCodes } from '@config';
-import { getCleanDayLeft } from '@utils';
+import { actions } from '@models';
+import { getDeviceCloudData } from '@api';
 
 const { convert: c, convertX: cx, convertY: cy } = Utils.RatioUtils;
-const { cleanTimeCode, cleanTypeCode } = dpCodes;
 interface MainProps {
   deviceOnline: boolean;
   workState: boolean;
@@ -17,33 +17,95 @@ interface MainProps {
 
 const Tip: React.FC = (props: MainProps) => {
   const { deviceOnline, workState } = props;
-  const { [cleanTimeCode]: cleanTime, [cleanTypeCode]: cleanType } = useSelector(
-    ({ dpState }: any) => dpState
-  );
+
+  const { deviceWashState } = useSelector(({ cloudData }: any) => cloudData);
+  const [washState, setWashState] = useState({
+    switch: false,
+    time: '',
+    repeat: 0,
+    hourAndMinute: [0, 0, 0],
+  });
+  const dispatch = useDispatch();
 
   const navigation = useNavigation();
 
+  useEffect(() => {
+    setWashState(deviceWashState);
+  }, [
+    deviceWashState.switch,
+    deviceWashState.time,
+    deviceWashState.repeat,
+    deviceWashState.hourAndMinute,
+  ]);
+
+  useEffect(() => {
+    handleGetCloud();
+  }, []);
+
+  const handleGetCloud = async () => {
+    // 用promise.all请求所有接口，返回后统一处理
+    const results = await getDeviceCloudData('deviceWashState');
+    if (typeof results === 'object' && Object.keys(results).length > 0) {
+      setWashState(results);
+      dispatch(actions.common.updateCloudData({ deviceWashState: results }));
+    }
+  };
+
   const getHint = () => {
     // !cleanType 表示清洗倒计时未逾期
-    const leftDay = getCleanDayLeft(cleanTime);
-    if (!leftDay.isOverTimer) {
+    // const leftDay = getCleanDayLeft('');
+    const { switch: _switch, time, repeat, hourAndMinute } = washState;
+    if (!_switch || !time) {
       return (
-        <TYText style={[styles.text2]}>
-          {String.getLang('device_washing_left')}
-          <TYText size={cx(12)} color="#44B74A">
-            {leftDay.leftDay}
+        <TYText style={styles.text1}>
+          {String.getLang('device_washing')}
+          <TYText size={cx(12)} color="#FA5F5F">
+            {String.getLang('go_setting')}
           </TYText>
-          {String.getLang('device_washing_unit')}
+        </TYText>
+      );
+    }
+
+    const [hour, _s, minute] = hourAndMinute;
+    // 用cleanReminderTime的记录的这一天，得出离今天过去了多少天
+    const diffDay = moment().diff(moment(time, 'YYYY-MM-DD'), 'days');
+    // 用相差的天数，对比提醒周期天数，得出是否预期
+    const isOverDay = diffDay - repeat;
+    // 对比当前时间是否已经过了设置的时间 cleanReminderHourAndMinute: hour、minute
+    const isOverHourAndMinute = moment().isAfter(moment().set({ hour, minute }));
+    const leftDay = repeat - diffDay;
+    const isToday = repeat === diffDay;
+
+    if (isToday && isOverHourAndMinute) {
+      return (
+        <TYText style={styles.text1}>
+          {String.getLang('device_washing')}
+          <TYText size={cx(12)} color="#FA5F5F">
+            <TYText style={styles.text2}>{String.getLang('today_is_over')}</TYText>
+          </TYText>
+        </TYText>
+      );
+    }
+    if (isOverDay > 0 && isOverHourAndMinute) {
+      return (
+        <TYText style={styles.text1}>
+          {String.getLang('device_washing')}
+          <TYText style={styles.text1}>
+            {String.getLang('over_day')}
+            <TYText size={cx(12)} color="#FA5F5F">{` ${isOverDay} `}</TYText>
+            {String.getLang('day_unit')}
+          </TYText>
         </TYText>
       );
     }
     return (
-      <TYText style={[styles.text2]}>
-        {String.getLang('over_day')}
-        <TYText size={cx(12)} color="#FA5F5F">
-          {leftDay.leftDay}
+      <TYText style={styles.text1}>
+        {String.getLang('device_washing')}
+        <TYText style={styles.text1}>
+          {String.getLang('left_days')}
+          <TYText style={styles.text2}>{` ${leftDay} `}</TYText>
+          {String.getLang('day_unit')}
         </TYText>
-        {String.getLang('device_washing_unit')}
       </TYText>
     );
   };
@@ -62,10 +124,7 @@ const Tip: React.FC = (props: MainProps) => {
             navigation.navigate('deviceWash');
           }}
         >
-          <TYText style={styles.text1}>
-            {String.getLang('device_washing')}
-            {getHint()}
-          </TYText>
+          {getHint()}
         </TouchableOpacity>
       </View>
     </View>
@@ -93,7 +152,7 @@ const styles = StyleSheet.create({
   },
   text2: {
     fontSize: cx(12),
-    color: '#968E87',
+    color: '#44B74A',
     lineHeight: cx(16),
   },
   line: {

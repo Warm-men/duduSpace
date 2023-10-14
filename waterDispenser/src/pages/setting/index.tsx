@@ -3,25 +3,22 @@ import { commonColor, commonStyles, cx, width, dpCodes } from '@config';
 import i18n from '@i18n';
 import Res from '@res';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { SwitchButton, TYText, TYSdk, Utils } from 'tuya-panel-kit';
+import { SwitchButton, TYText, TYSdk } from 'tuya-panel-kit';
 import moment from 'moment';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { getCleanDayLeft } from '@utils';
 
-const { childLockCode, powerModeCode, batteryLevelCode, cleanTimeCode, cleanTypeCode } = dpCodes;
-const { toFixed } = Utils.CoreUtils;
+const { childLockCode, powerModeCode, batteryLevelCode } = dpCodes;
 
 const Setting: React.FC = props => {
   const {
     [childLockCode]: childLock,
     [powerModeCode]: powerMode,
     [batteryLevelCode]: batteryLevel,
-    [cleanTimeCode]: cleanTime,
-    [cleanTypeCode]: cleanType,
   } = useSelector(({ dpState }: any) => dpState);
 
   const { filterState } = useSelector(({ cloudData }: any) => cloudData);
+  const { deviceWashState } = useSelector(({ cloudData }: any) => cloudData);
 
   const { switch: _switch, time, repeat, hourAndMinute } = filterState || {
     switch: false,
@@ -47,8 +44,7 @@ const Setting: React.FC = props => {
 
   const getFilterHint = () => {
     // 未设置干燥剂提醒
-    if (!filterSwitch) return null;
-    if (filterRepeat === 0) return '';
+    if (!filterSwitch || !filterTime || !filterRepeat) return i18n.getLang('go_setting');
 
     const [hour, minute] = filterHourAndMinute;
     // 用cleanReminderTime的记录的这一天，得出离今天过去了多少天
@@ -68,17 +64,32 @@ const Setting: React.FC = props => {
     return `${i18n.getLang('remain_time_1')} ${leftDay} ${i18n.getLang('remain_time_2')}`;
   };
 
-  const getWashingHint = () => {
-    // !cleanType 表示设备倒计时清理还没到期
-    const leftDay = getCleanDayLeft(cleanTime);
-    if (!leftDay.isOverTimer) {
-      return `${i18n.getLang('device_washing_left')}${leftDay.leftDay}${i18n.getLang(
-        'device_washing_unit'
-      )}`;
+  const getWashHint = () => {
+    // 未设置干燥剂提醒
+    const {
+      switch: _wSwitch,
+      time: _wTime,
+      repeat: wRepeat,
+      hourAndMinute: wHourAndMinute,
+    } = deviceWashState;
+    if (!_wSwitch || !_wTime || !wRepeat) return i18n.getLang('go_setting');
+
+    const [hour, _s, minute] = wHourAndMinute;
+    // 用cleanReminderTime的记录的这一天，得出离今天过去了多少天
+    const diffDay = moment().diff(moment(_wTime, 'YYYY-MM-DD'), 'days');
+    // 用相差的天数，对比提醒周期天数，得出是否预期
+    const isOverDay = diffDay - wRepeat;
+    // 对比当前时间是否已经过了设置的时间 cleanReminderHourAndMinute: hour、minute
+    const isOverHourAndMinute = moment().isAfter(moment().set({ hour, minute }));
+    const leftDay = wRepeat - diffDay;
+    const isToday = wRepeat === diffDay;
+    if (isToday && isOverHourAndMinute) {
+      return i18n.getLang('remain_time_3');
     }
-    return `${i18n.getLang('over_day')}${Math.abs(leftDay.leftDay)}${i18n.getLang(
-      'device_washing_unit'
-    )}`;
+    if (isOverDay > 0 && isOverHourAndMinute) {
+      return `${i18n.getLang('over_day')} ${isOverDay} ${i18n.getLang('remain_time_2')}`;
+    }
+    return `${i18n.getLang('remain_time_1')} ${leftDay} ${i18n.getLang('remain_time_2')}`;
   };
 
   const batteryLowLevel = ['twenty'];
@@ -112,7 +123,7 @@ const Setting: React.FC = props => {
     {
       icon: Res.setting_icon_cleanout,
       title: i18n.getLang('device_clean'),
-      value: getWashingHint(),
+      value: getWashHint(),
       onPress: () => {
         navigation.navigate('deviceWash');
       },
@@ -130,15 +141,6 @@ const Setting: React.FC = props => {
         TYSdk.device.putDeviceData({ [childLockCode]: value });
       },
       isBool: true,
-      show: true,
-    },
-    {
-      icon: Res.setting_icon_specification,
-      title: i18n.getLang('instructions'),
-      onPress: () => {
-        // TODO 跳转到说明书
-        console.log('111');
-      },
       show: true,
     },
   ];

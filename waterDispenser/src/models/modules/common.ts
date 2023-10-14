@@ -87,14 +87,27 @@ const devInfo = handleActions<DevInfo<DpState>>(
   {} as DevInfo<DpState>
 );
 
-const cloudData = handleActions<DevInfo<DpState>>(
+const cloudData = handleActions<any>(
   {
     [updateCloudData.toString()]: (state, action) => ({
       ...state,
       ...action.payload,
     }),
   },
-  {} as any
+  {
+    filterState: {
+      switch: false,
+      time: '',
+      repeat: 0,
+      hourAndMinute: [0, 0, 0],
+    },
+    deviceWashState: {
+      switch: false,
+      time: '',
+      repeat: 0,
+      hourAndMinute: [0, 0, 0],
+    },
+  }
 );
 
 let isSend = false;

@@ -54,17 +54,7 @@ const FilterReplace: React.FC = props => {
   }, [_switch, time]);
 
   const onSave = async () => {
-    if (!filterSwitch) {
-      await saveDeviceCloudData('filterSwitch', '1');
-    }
-    const _time = moment().format('YYYY-MM-DD');
-    await saveDeviceCloudData('filterTime', { time: _time });
-    await saveDeviceCloudData('filterRepeat', `${filterRepeatCurrent}`);
-    setFilterRepeat(filterRepeatCurrent);
-    await saveDeviceCloudData('filterHourAndMinute', {
-      hour: filterHourAndMinute[0],
-      minute: filterHourAndMinute[2],
-    });
+
     GlobalToast.show({
       text: filterSwitch ? i18n.getLang('update_done') : i18n.getLang('set_done'),
       showIcon: false,
@@ -73,12 +63,15 @@ const FilterReplace: React.FC = props => {
         GlobalToast.hide();
       },
     });
+    const _time = moment().format('YYYY-MM-DD');
     const _filterState = {
       switch: true,
       time: _time,
       repeat: `${filterRepeatCurrent}`,
       hourAndMinute: [filterHourAndMinute[0], 0, filterHourAndMinute[2]],
     };
+    await saveDeviceCloudData('filterState', _filterState);
+    setFilterRepeat(filterRepeatCurrent);
     dispatch(actions.common.updateCloudData({ filterState: _filterState }));
   };
 
@@ -166,19 +159,6 @@ const FilterReplace: React.FC = props => {
     // 对比当前时间是否已经过了设置的时间 cleanReminderHourAndMinute: hour、minute
     const isOverHourAndMinute = moment().isAfter(moment().set({ hour, minute }));
     const leftDay = filterRepeat - diffDay;
-    // const isToday = filterRepeat === diffDay;
-    // if (isToday && isOverHourAndMinute) {
-    //   return (
-    //     <View style={[styles.center, { marginLeft: cx(90) }]}>
-    //       <View style={[styles.center, styles.productTextBox]}>
-    //         <TYText size={cx(14)} color={commonColor.red}>
-    //           {i18n.getLang('remain_time_3')}
-    //         </TYText>
-    //       </View>
-    //       <Image source={Res.tip_} style={styles.popImage} />
-    //     </View>
-    //   );
-    // }
     if (isOverDay > 0 && isOverHourAndMinute) {
       return (
         <View style={[styles.center, { marginLeft: cx(90) }]}>
@@ -217,7 +197,7 @@ const FilterReplace: React.FC = props => {
         <View style={[commonStyles.shadow, styles.container]}>
           <View style={[styles.center, styles.productBox]}>
             {renderPopTip()}
-            <Image source={Res.dryProduct} style={{ width: cx(120), height: cx(120) }} />
+            <Image source={Res.filter} style={{ width: cx(120), height: cx(120) }} />
           </View>
           <View style={styles.productTipsBox}>
             <TYText

@@ -100,6 +100,7 @@ export default {
     sleep_time_error: 'Start time and end time cannot be the same',
     update_done: 'Update success',
     set_done: 'Set success',
+    settings_title: 'Setting',
   },
   zh: {
     amount_of_water: '水量：',
@@ -197,5 +198,6 @@ export default {
     sleep_time_error: '开始时间与结束时间不能相同',
     update_done: '更新成功',
     set_done: '设置成功',
+    settings_title: '设置',
   },
 };
