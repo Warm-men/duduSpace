@@ -158,22 +158,6 @@ const Setting: React.FC = props => {
       },
       isBool: true,
     },
-    // {
-    //   icon: Res.setting_icon_specification,
-    //   title: i18n.getLang('instructions'),
-    //   onPress: () => {
-    //     // TODO 跳转到说明书
-    //     console.log('111');
-    //   },
-    // },
-    // 通知功能暂时不做
-    // {
-    //   icon: Res.setting_icon_inform,
-    //   title: i18n.getLang('notification_switch'),
-    //   onPress: () => {
-    //     navigation.navigate('notice');
-    //   },
-    // },
   ];
 
   const renderItem = ({ icon, title, desc, color, value, onPress, isBool }) => {

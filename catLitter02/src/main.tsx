@@ -1,5 +1,5 @@
 import React from 'react';
-import { createNavigator, GlobalTheme, NavigationRoute, TransitionPresets } from 'tuya-panel-kit';
+import { createNavigator, GlobalTheme, NavigationRoute } from 'tuya-panel-kit';
 import { StatusBar } from 'react-native';
 import String from '@i18n';
 import composeLayout from './composeLayout';

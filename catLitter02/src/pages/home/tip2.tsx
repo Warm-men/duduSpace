@@ -38,13 +38,13 @@ const Tip: React.FC = () => {
   const [dryAgentHourAndMinute, setDryAgentHourAndMinute] = useState([0, 0]);
 
   useEffect(() => {
-    if (_dryAgentSwitch && _dryAgentTime) {
-      setDryAgentSwitch(_dryAgentSwitch);
-      setDryAgentTime(_dryAgentTime);
-      setDryAgentRepeat(_dryAgentRepeat);
-      setDryAgentHourAndMinute(_dryAgentHourAndMinute);
+    if (dryAgentState && dryAgentState.dryAgentSwitch && dryAgentState.dryAgentTime) {
+      setDryAgentSwitch(dryAgentState.dryAgentSwitch);
+      setDryAgentTime(dryAgentState.dryAgentTime);
+      setDryAgentRepeat(dryAgentState.dryAgentRepeat);
+      setDryAgentHourAndMinute(dryAgentState.dryAgentHourAndMinute);
     }
-  }, [_dryAgentSwitch, _dryAgentTime, _dryAgentRepeat, _dryAgentHourAndMinute]);
+  }, [dryAgentState]);
 
   useEffect(() => {
     handleGetCloud();

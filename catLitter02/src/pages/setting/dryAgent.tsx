@@ -1,25 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { BrickButton, TYText, Popup, GlobalToast, TYSdk } from 'tuya-panel-kit';
+import { TYText, Popup, GlobalToast } from 'tuya-panel-kit';
 import _ from 'lodash';
 import moment from 'moment';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  commonColor,
-  commonStyles,
-  commonPopStyle,
-  cx,
-  width,
-  commonPopStyleTimePiker,
-} from '@config';
+import { commonColor, commonStyles, commonPopStyle, cx, commonPopStyleTimePiker } from '@config';
 import { actions } from '@models';
 import i18n from '@i18n';
 import Res from '@res';
 import { saveDeviceCloudData } from '@api';
 import TipModal from '@components/tipModal';
+import LinearGradient from '@components/LinearGradient';
 
 const DryAgent: React.FC = props => {
-  const { route } = props;
   const dispatch = useDispatch();
   const { dryAgentState } = useSelector(({ cloudData }: any) => cloudData);
 
@@ -52,14 +45,18 @@ const DryAgent: React.FC = props => {
   const [showTip, setShowTip] = useState(false);
 
   useEffect(() => {
-    if (_dryAgentSwitch && _dryAgentTime) {
-      setDryAgentSwitch(_dryAgentSwitch);
-      setDryAgentTime(_dryAgentTime);
-      setDryAgentRepeat(_dryAgentRepeat);
-      setDryAgentRepeatCurrent(_dryAgentRepeat);
-      setDryAgentHourAndMinute([_dryAgentHourAndMinute[0], 0, _dryAgentHourAndMinute[1]]);
+    if (dryAgentState && dryAgentState.dryAgentSwitch && dryAgentState.dryAgentTime) {
+      setDryAgentSwitch(dryAgentState.dryAgentSwitch);
+      setDryAgentTime(dryAgentState.dryAgentTime);
+      setDryAgentRepeat(dryAgentState.dryAgentRepeat);
+      setDryAgentRepeatCurrent(dryAgentState.dryAgentRepeat);
+      setDryAgentHourAndMinute([
+        dryAgentState.dryAgentHourAndMinute[0],
+        0,
+        dryAgentState.dryAgentHourAndMinute[1],
+      ]);
     }
-  }, [_dryAgentSwitch, _dryAgentTime, _dryAgentRepeat, _dryAgentHourAndMinute]);
+  }, [dryAgentState]);
 
   const onSave = async () => {
     if (!dryAgentSwitch) {
@@ -266,25 +263,13 @@ const DryAgent: React.FC = props => {
           </View>
         </View>
       </ScrollView>
-
-      <BrickButton
-        text={!dryAgentSwitch ? i18n.getLang('finishSet') : i18n.getLang('reset_dry_agent')}
-        type="primaryGradient"
-        onPress={handleFinishSet}
-        background={{
-          x1: '0%',
-          y1: '0%',
-          x2: '100%',
-          y2: '0%',
-          stops: {
-            '0%': '#E6B26A',
-            '100%': '#D49157',
-          },
-        }}
-        style={styles.btnBox}
-        wrapperStyle={styles.btn}
-        textStyle={{ fontSize: cx(15) }}
-      />
+      <LinearGradient style={[styles.btn]} width={cx(315)} height={cx(50)}>
+        <TouchableOpacity style={[styles.btnBox]} onPress={handleFinishSet} activeOpacity={0.65}>
+          <TYText style={styles.text15White}>
+            {!dryAgentSwitch ? i18n.getLang('finishSet') : i18n.getLang('reset_dry_agent')}
+          </TYText>
+        </TouchableOpacity>
+      </LinearGradient>
       <TipModal
         isVisibleModal={showTip}
         title={i18n.getLang('reset_repeat_tip')}
@@ -362,17 +347,26 @@ const styles = StyleSheet.create({
     fontSize: cx(15),
   },
   btnBox: {
-    marginBottom: cx(44),
-    marginHorizontal: cx(30),
+    width: cx(315),
+    height: cx(50),
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   btn: {
-    width: width - cx(60),
-    height: cx(49),
-    borderRadius: cx(25.5),
+    width: cx(315),
+    height: cx(50),
+    borderRadius: cx(25),
+    overflow: 'hidden',
+    marginBottom: cx(44),
+    marginHorizontal: cx(30),
   },
   popImage: {
     width: cx(16),
     height: cx(10),
     marginTop: -cx(2.2),
+  },
+  text15White: {
+    fontSize: cx(15),
+    color: '#fff',
   },
 });
