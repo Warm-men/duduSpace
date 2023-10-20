@@ -81,7 +81,7 @@ const DryAgent: React.FC = props => {
     });
     const _dryAgentState = {
       dryAgentSwitch,
-      dryAgentTime,
+      dryAgentTime: time,
       dryAgentRepeat: dryAgentRepeatCurrent,
       dryAgentHourAndMinute: [dryAgentHourAndMinute[0], dryAgentHourAndMinute[2]],
     };
