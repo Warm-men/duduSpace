@@ -39,6 +39,7 @@ const WeekWorkRecord: React.FC = (props: IProps) => {
     }, 1000);
     return () => {
       clearInterval(timer.current);
+      isLoad = false;
     };
   }, []);
 
@@ -130,7 +131,7 @@ const WeekWorkRecord: React.FC = (props: IProps) => {
       setAllRecordList(groupList);
       if (!isLoad) {
         const newShowNoRecordSection = _times(groupList.length).map(i => {
-          return i <= 1;
+          return i === 0;
         });
         setShowRecordSection(newShowNoRecordSection);
       }
@@ -413,10 +414,14 @@ const WeekWorkRecord: React.FC = (props: IProps) => {
           return (
             <View style={styles.label1} key={index}>
               <TYText style={styles.labeText1}>{subTimeText}</TYText>
-              <View style={[styles.circle, { backgroundColor: subItemStatusColor }]} />
-              {renderHorizontalDashView()}
+              <View style={styles.circleView}>
+                <View style={[styles.circle, { backgroundColor: subItemStatusColor }]} />
+                {renderHorizontalDashView()}
+              </View>
               <View>
-                <TYText style={styles.labeText}>{subItemLabel.label}</TYText>
+                <TYText style={[styles.labeText, { color: '#7C7269' }]}>
+                  {subItemLabel.label}
+                </TYText>
                 {subItemLabel.errorText ? (
                   <TYText style={styles.labeText}>{subItemLabel.errorText}</TYText>
                 ) : null}
@@ -588,7 +593,7 @@ const styles = StyleSheet.create({
   label1: {
     marginTop: cx(14),
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
   labeText: {
     fontSize: cx(13),
@@ -599,10 +604,16 @@ const styles = StyleSheet.create({
   labeText1: {
     fontSize: cx(12),
     color: '#ADA49B',
-    width: cx(32),
+    width: cx(42),
     lineHeight: cx(18),
     marginRight: cx(6.9),
-    marginLeft: cx(16),
+    marginLeft: cx(6),
+    textAlign: 'center',
+  },
+  circleView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: cx(20),
   },
   line: {
     marginHorizontal: cx(2.5),

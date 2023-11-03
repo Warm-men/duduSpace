@@ -23,7 +23,7 @@ const AnimateArrow: React.FC = (props: IProps) => {
     Animated.timing(rotationValue, {
       toValue,
       duration: 600,
-      useNativeDriver: false,
+      useNativeDriver: true,
     }).start(() => {
       // setIsRotated(!isRotated);
     });

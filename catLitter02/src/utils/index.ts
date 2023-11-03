@@ -184,13 +184,17 @@ export const encodeCleanPlan = (planList: CleanPlanData[]) => {
 
 // base64转16进制
 const base64toHEX = (base64: string) => {
-  const raw = decodeURIComponent(Base64.decode(base64));
-  const HEX = [];
-  for (let i = 0; i < raw.length; i++) {
-    const _hex = raw.charCodeAt(i).toString(16);
-    HEX.push(_hex.length === 2 ? _hex : `0${_hex}`);
+  try {
+    const raw = decodeURIComponent(Base64.decode(base64));
+    const HEX = [];
+    for (let i = 0; i < raw.length; i++) {
+      const _hex = raw.charCodeAt(i).toString(16);
+      HEX.push(_hex.length === 2 ? _hex : `0${_hex}`);
+    }
+    return HEX.join('');
+  } catch (e) {
+    return '';
   }
-  return HEX.join('');
 };
 
 // dp 106协议
@@ -270,9 +274,9 @@ export const base64ListToUIList = (list: DpListItem[], dpId: number) => {
   list.forEach(item => {
     // 新的dp127协议不需要转换，raw改成string型dp上报
     const dpString = dpId === 127 ? item.value : base64toHEX(item.value);
-    const dpObject = formatDec(dpString, dpFormat[dpId], dpStringLen[dpId]);
+    const dpObject = dpString ? formatDec(dpString, dpFormat[dpId], dpStringLen[dpId]) : null;
     const newItem = { ...item, value: dpObject };
-    hexList.push(newItem);
+    dpObject && hexList.push(newItem);
   });
   return hexList;
 };
