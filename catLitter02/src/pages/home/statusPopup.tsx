@@ -295,10 +295,17 @@ const PopUp = (props: any) => {
     }
 
     const faultState = [4, 8];
+    const isCatFault = isFault4 || isFault6;
+
     // 故障显示
-    if (faultState.includes(rollerState) && (faultList.length || isFault6)) {
-      const _faultList =
-        isFault6 && faultList.length ? [...faultList, 6] : isFault6 ? [6] : faultList;
+    if (faultState.includes(rollerState) && (faultList.length || isCatFault)) {
+      let _faultList = faultList;
+      if (isFault6) {
+        _faultList = [6];
+      }
+      if (isFault4) {
+        _faultList = [4];
+      }
       const _text = getFaultTextInPop(_faultList);
       return {
         button: [],
@@ -310,7 +317,7 @@ const PopUp = (props: any) => {
   const getFaultTextInPop = (faultList: [number]) => {
     const is1 = faultList.includes(1) || faultList.includes(2); // error: 1、2
     const is2 = faultList.includes(3); // error: 3
-    const is3 = faultList.includes(6); // error: 6
+    const is3 = faultList.includes(4) || faultList.includes(6); // error: 4、6
     const is4 = faultList.includes(5); // error: 5
 
     if (is1) return Strings.getLang('fault_in_pop_1');
