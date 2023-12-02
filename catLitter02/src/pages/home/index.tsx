@@ -86,13 +86,12 @@ const Home: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    setTimeout(() => {
-      timer.current = setInterval(() => {
-        getTodayDpLog();
-      }, 12000);
-    }, 1000);
+    let timer1: any = null;
+    timer1 = setInterval(() => {
+      getTodayDpLog();
+    }, 13000);
     return () => {
-      clearInterval(timer.current);
+      timer1 && clearInterval(timer1);
     };
   }, []);
 

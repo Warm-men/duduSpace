@@ -421,6 +421,7 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: cx(13),
     color: '#49362F',
+    fontWeight: 'bold',
   },
   listView: {
     marginTop: cx(18),

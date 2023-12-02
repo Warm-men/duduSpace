@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Utils, TYText } from 'tuya-panel-kit';
 import moment from 'moment';
 import { useSelector, useDispatch } from 'react-redux';
@@ -121,10 +121,12 @@ const Tip: React.FC = () => {
     // 未设置干燥剂提醒
     if (!dryAgentSwitch)
       return (
-        <TYText style={styles.text1}>
-          {String.getLang('go_setting_filter_0')}
-          <TYText style={styles.text3}>{String.getLang('go_setting_filter_1')}</TYText>
-        </TYText>
+        <View>
+          <TYText style={styles.text1}>{String.getLang('go_setting_filter_0')}</TYText>
+          <View>
+            <TYText style={styles.text3}>{String.getLang('go_setting_filter_1')}</TYText>
+          </View>
+        </View>
       );
 
     const [hour, _s, minute] = dryAgentHourAndMinute;
@@ -138,37 +140,44 @@ const Tip: React.FC = () => {
     const isToday = dryAgentRepeat === diffDay;
     if (isToday && isOverHourAndMinute) {
       return (
-        <TYText style={styles.text1}>
-          {String.getLang('deodorizing_block')}
+        <View>
+          <TYText style={styles.text1}>{String.getLang('deodorizing_block')}</TYText>
+          <View>
+            <TYText style={styles.text1}>
+              {String.getLang('remainTime1')}
+              <TYText style={styles.text2}>{` ${leftDay} `}</TYText>
+              {String.getLang('remainTime2')}
+            </TYText>
+          </View>
+        </View>
+      );
+    }
+
+    if (isOverDay > 0 && isOverHourAndMinute) {
+      return (
+        <View>
+          <TYText style={styles.text1}>{String.getLang('deodorizing_block')}</TYText>
+          <View>
+            <TYText style={styles.text1}>
+              {String.getLang('over_day')}
+              <TYText style={[styles.text2, { color: commonColor.red }]}>{` ${isOverDay} `}</TYText>
+              {String.getLang('remainTime2')}
+            </TYText>
+          </View>
+        </View>
+      );
+    }
+    return (
+      <View>
+        <TYText style={styles.text1}>{String.getLang('deodorizing_block')}</TYText>
+        <View>
           <TYText style={styles.text1}>
             {String.getLang('remainTime1')}
             <TYText style={styles.text2}>{` ${leftDay} `}</TYText>
             {String.getLang('remainTime2')}
           </TYText>
-        </TYText>
-      );
-    }
-    if (isOverDay > 0 && isOverHourAndMinute) {
-      return (
-        <TYText style={styles.text1}>
-          {String.getLang('deodorizing_block')}
-          <TYText style={styles.text1}>
-            {String.getLang('over_day')}
-            <TYText style={[styles.text2, { color: commonColor.red }]}>{` ${isOverDay} `}</TYText>
-            {String.getLang('remainTime2')}
-          </TYText>
-        </TYText>
-      );
-    }
-    return (
-      <TYText style={styles.text1}>
-        {String.getLang('deodorizing_block')}
-        <TYText style={styles.text1}>
-          {String.getLang('remainTime1')}
-          <TYText style={styles.text2}>{` ${leftDay} `}</TYText>
-          {String.getLang('remainTime2')}
-        </TYText>
-      </TYText>
+        </View>
+      </View>
     );
   };
 
