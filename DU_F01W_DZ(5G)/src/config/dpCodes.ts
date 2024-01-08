@@ -1,0 +1,30 @@
+export default {
+  meal_plan: 'meal_plan', // 喂食计划
+  quick_feed: 'quick_feed', // 快速喂食
+  manual_feed: 'manual_feed', // 手动喂食
+  feed_state: 'feed_state', // 喂食状态
+  battery_percentage: 'battery_percentage', // 电池电量
+  charge_state: 'charge_state', // 充电状态
+  fault: 'fault', // 故障告警
+  feed_report: 'feed_report', // 喂食结果上报
+  weight: 'weight', // 余粮重量
+  factory_reset: 'factory_reset', // 恢复出厂
+  switch: 'switch', // 开关
+  child_lock: 'child_lock', // 童锁
+  plan_feed_report: 'plan_feed_report', // 计划喂食结果上报
+  up_reset_signal: 'up_reset_signal', // 复位
+  manual_feed_report: 'manual_feed_report', // APP的手动喂食结果上报
+  led_ctrl: 'led_ctrl', // 灯控制
+  auto_lock_enable: 'auto_lock_enable', // 自动上锁使能
+  cat_close_time: 'cat_close_time', // 猫靠近时间
+  power_mode: 'power_mode', // 供电方式
+  enter_sleep: 'enter_sleep', // 进入sleep
+  desiccant: 'desiccant', // 干燥剂提醒时间
+  notice_feed_report: 'notice_feed_report', // 喂食结果通知开关
+  notice_food_jam: 'notice_food_jam', // 堵粮异常提醒开关
+  notice_food_shortage: 'notice_food_shortage', // 缺粮提醒开关
+  notice_low_battery: 'notice_low_battery', // 低电量提醒开关
+  notice_moto_jam: 'notice_moto_jam', // 马达异常提醒开关
+  notice_cat_close: 'notice_cat_close', // 进食提醒开关
+  notice_desiccant: 'notice_desiccant', // 干燥剂更换提醒开关
+};

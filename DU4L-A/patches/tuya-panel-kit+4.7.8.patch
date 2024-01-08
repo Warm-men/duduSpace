@@ -1,0 +1,15 @@
+diff --git a/node_modules/tuya-panel-kit/src/components/popup/withSkeleton.js b/node_modules/tuya-panel-kit/src/components/popup/withSkeleton.js
+index cfc0782..22d8607 100644
+--- a/node_modules/tuya-panel-kit/src/components/popup/withSkeleton.js
++++ b/node_modules/tuya-panel-kit/src/components/popup/withSkeleton.js
+@@ -257,6 +257,10 @@ const withSkeleton = (WrappedComponent, withModal = false) => {
+     _handleCancelPress = () => {
+       const { onCancel } = this.props;
+       if (this.hasMotion) {
++        if (typeof onCancel === 'function') {
++          onCancel()
++          return;
++        }
+         this.setState({ show: false });
+         this.actionTypeFn = () => {
+           typeof onCancel === 'function' && onCancel();
